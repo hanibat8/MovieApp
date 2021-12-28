@@ -1,0 +1,13 @@
+.form{
+    padding: 1rem;
+    
+}
+
+.search{
+    margin-left: auto;
+    display: block;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 2rem;
+    padding: .5rem;
+}

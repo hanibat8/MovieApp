@@ -1,0 +1,70 @@
+.header__container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    height: 4rem;
+    background-color: rgb(33, 21, 84);
+    width: 100%;
+    color: #fff;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 6rem;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+}
+
+.navbar__link{
+    margin-left: 1rem;
+    font-weight: 700;
+}
+
+.header__main{
+    color: rgb(255, 255, 255);
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 3rem 3rem;
+    margin-top: 4rem;
+    background-image:linear-gradient( rgba(140, 144, 169, 0.52), rgb(134, 134, 206)), url('https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/09/BEST-85-MOVIES-ON-NETFLIX.jpg') ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+}
+
+.header__main__heading{
+    margin-bottom: 0;
+    font-size: 3rem;
+}
+
+.header__main__sub-heading{
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.header__main__form{
+    position: relative;
+}
+
+.header__main__form__input{
+    width: 100%;
+    margin-top: 2rem;
+    padding: .9rem .4rem;
+    border-radius: 2rem;
+    border:none;
+}
+
+.header__main__form__btn{
+    position: absolute;
+    top: 1.9rem;
+    right: -.85rem;
+    padding: 1rem 1.8rem;
+    border-radius: 2rem;
+    border:1px solid rgb(134, 134, 206);
+    background: linear-gradient(to right, rgb(211, 106, 96), rgb(99, 99, 206));
+}
