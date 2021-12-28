@@ -4,51 +4,54 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './MovieList.module.css';
 import Carousal from '../Carousal/Carousal';
 import React from 'react';
+import { render } from '@testing-library/react';
 
-const MovieList=()=>{
-    const {sendRequest:popularSendRequest,item:popularMoviesItem,error:popularMoviesError,isLoading:popularMoviesIsLoading,unsetState}=useHttp();
-    /*const {sendRequest:latestSendRequest,item:latestMoviesItem,error:latestMoviesError,isLoading:popularMoviesIsLoading,unsetState}=useHttp();*/
-    useEffect(()=>{
-        popularSendRequest('https://api.themoviedb.org/3/movie/popular?api_key=5c8ece04ea5e1e31bb7e5630081968b6');
-        
-        return()=>{
-            unsetState();
-        }
-    },[popularSendRequest,unsetState])
-
-    /*useEffect(()=>{
-        sendRequest('https://api.themoviedb.org/3/movie/latest?api_key=5c8ece04ea5e1e31bb7e5630081968b6');
-         
-         return()=>{
-             unsetState();
-         }
-     },[latestSendRequest,unsetState])*/
-
+const renderMovieList=(isLoading,error,item)=>{
     let content;
+    //console.log(props);
 
-    //console.log(item,error,isLoading);
-
-    if(popularMoviesIsLoading){
+    if(isLoading){
         //console.log('loading');
         content= <LoadingSpinner/>
     }
 
-    if(popularMoviesError){
+    if(error){
         //console.log('error');
         content= <div>Error</div>
 
     }
     
-    if(popularMoviesItem.length>0){
+    if(item.length){
         //console.log(item[0]);
-        content=popularMoviesItem;
+        content=item;
         console.log(content);
+
+        return content;
     }
+}
+
+const MovieList=(props)=>{
+
+    const {sendRequest,item,error,isLoading,unsetState}=useHttp();
+   
+    console.log(item);
+    useEffect(()=>{
+        sendRequest(props.url);
+        
+        return()=>{
+            unsetState();
+        }
+    },[sendRequest,unsetState])
+
+    //renderMovieList();
 
     return(
+       // <div></div>
         <React.Fragment>
-            <div className={classes.centered}>{popularMoviesItem.length===0 && content}</div>
-            {popularMoviesItem.length>0 &&<Carousal list={content}/>}
+            <div className={classes.centered}>{item.length===0 && renderMovieList(isLoading[0],error[0],item)}</div>
+            {item.length>0 &&<Carousal list={renderMovieList(isLoading[0],error[0],item[0])} title= {`What's Popular`}/>}
+            <div className={classes.centered}>{item.length===0 && renderMovieList(isLoading[1],error[1],item)}</div>
+            {item.length>0 &&<Carousal list={renderMovieList(isLoading[1],error[1],item[1])} title= {`Top Rated`}/>}
         </React.Fragment>
     )
 }

@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Header/>
       <Layout >
-        <MovieList/>
+        <MovieList url={['https://api.themoviedb.org/3/movie/popular?api_key=5c8ece04ea5e1e31bb7e5630081968b6','https://api.themoviedb.org/3/movie/top_rated?api_key=5c8ece04ea5e1e31bb7e5630081968b6']}/>
       </Layout>
     </div>
   );
