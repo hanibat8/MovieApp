@@ -4,7 +4,6 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './MovieList.module.css';
 import Carousal from '../Carousal/Carousal';
 import React from 'react';
-import { render } from '@testing-library/react';
 
 const renderMovieList=(isLoading,error,item)=>{
     let content;
@@ -12,29 +11,33 @@ const renderMovieList=(isLoading,error,item)=>{
 
     if(isLoading){
         //console.log('loading');
-        content= <LoadingSpinner/>
+        content= <div className={classes.centered}><LoadingSpinner/></div>
     }
 
     if(error){
-        //console.log('error');
-        content= <div>Error</div>
+        console.log('error');
+        content= <div className={classes.centered}>{error}</div>
 
     }
     
-    if(item.length){
-        //console.log(item[0]);
+    if(item){
+        console.log(item);
         content=item;
-        console.log(content);
-
-        return content;
+        //console.log(content);
     }
+
+    return content;
 }
 
 const MovieList=(props)=>{
 
-    const {sendRequest,item,error,isLoading,unsetState}=useHttp();
+    const {sendRequest,item,error:[popularMoviesError,topRatedMoviesError],isLoading:[popularMoviesIsLoading,topRatedMoviesIsLoading],unsetState}=useHttp();
+    let popularMoviesItem,topRatedMoviesItem;
+    
+    if(item.length>0){
+        [[popularMoviesItem],[topRatedMoviesItem]]=item;
+    }
    
-    console.log(item);
     useEffect(()=>{
         sendRequest(props.url);
         
@@ -46,12 +49,14 @@ const MovieList=(props)=>{
     //renderMovieList();
 
     return(
-       // <div></div>
-        <React.Fragment>
-            <div className={classes.centered}>{item.length===0 && renderMovieList(isLoading[0],error[0],item)}</div>
-            {item.length>0 &&<Carousal list={renderMovieList(isLoading[0],error[0],item[0])} title= {`What's Popular`}/>}
-            <div className={classes.centered}>{item.length===0 && renderMovieList(isLoading[1],error[1],item)}</div>
-            {item.length>0 &&<Carousal list={renderMovieList(isLoading[1],error[1],item[1])} title= {`Top Rated`}/>}
+        //<div></div>
+       <React.Fragment>
+            <h4 className={classes['movie-list__title']}>What's Popular</h4>
+            {!popularMoviesItem && renderMovieList(popularMoviesIsLoading,popularMoviesError,popularMoviesItem)}
+            {popularMoviesItem &&<Carousal list={renderMovieList(popularMoviesIsLoading,popularMoviesError,popularMoviesItem.results)}/>}
+            <h4 className={classes['movie-list__title']}>Top Rated</h4>
+            {!topRatedMoviesItem && renderMovieList(topRatedMoviesIsLoading,topRatedMoviesError,topRatedMoviesItem)}
+            {topRatedMoviesItem &&<Carousal list={renderMovieList(topRatedMoviesIsLoading,topRatedMoviesError,topRatedMoviesItem.results)}/>}
         </React.Fragment>
     )
 }

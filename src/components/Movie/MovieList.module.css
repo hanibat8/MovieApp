@@ -1,4 +1,10 @@
 .centered{
-    text-align: center;
-    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24rem;
+}
+
+.movie-list__title{
+    font-size: 1.8rem;
 }
