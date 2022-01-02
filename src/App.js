@@ -1,16 +1,18 @@
-import Layout from "./components/UI/Layout";
-import Search from "./components/Search/Search";
 import './App.css';
-import MovieList from "./components/Movie/MovieList";
-import Header from "./components/UI/Header";
+import {Route,Routes} from 'react-router-dom';
+import React from 'react';
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <Layout >
-        <MovieList url={['https://api.themoviedb.org/3/movie/popular?api_key=5c8ece04ea5e1e31bb7e5630081968b6','https://api.themoviedb.org/3/movie/top_rated?api_key=5c8ece04ea5e1e31bb7e5630081968b6']}/>
-      </Layout>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/signUp' element={<SignUp/>} />
+        <Route path='/login' element={<Login/>}/>
+      </Routes>
     </div>
   );
 }

@@ -10,7 +10,7 @@ const renderMovieList=(isLoading,error,item)=>{
     //console.log(props);
 
     if(isLoading){
-        //console.log('loading');
+        console.log('in loading');
         content= <div className={classes.centered}><LoadingSpinner/></div>
     }
 
@@ -19,9 +19,9 @@ const renderMovieList=(isLoading,error,item)=>{
         content= <div className={classes.centered}>{error}</div>
 
     }
-    
-    if(item){
-        console.log(item);
+    //console.log(item);
+    if(item.length>0){
+      //  console.log(item);
         content=item;
         //console.log(content);
     }
@@ -31,12 +31,8 @@ const renderMovieList=(isLoading,error,item)=>{
 
 const MovieList=(props)=>{
 
-    const {sendRequest,item,error:[popularMoviesError,topRatedMoviesError],isLoading:[popularMoviesIsLoading,topRatedMoviesIsLoading],unsetState}=useHttp();
-    let popularMoviesItem,topRatedMoviesItem;
-    
-    if(item.length>0){
-        [[popularMoviesItem],[topRatedMoviesItem]]=item;
-    }
+    const {sendRequest,item,error,isLoading,unsetState}=useHttp();
+    //console.log(item);
    
     useEffect(()=>{
         sendRequest(props.url);
@@ -46,17 +42,12 @@ const MovieList=(props)=>{
         }
     },[sendRequest,unsetState])
 
-    //renderMovieList();
-
     return(
         //<div></div>
        <React.Fragment>
-            <h4 className={classes['movie-list__title']}>What's Popular</h4>
-            {!popularMoviesItem && renderMovieList(popularMoviesIsLoading,popularMoviesError,popularMoviesItem)}
-            {popularMoviesItem &&<Carousal list={renderMovieList(popularMoviesIsLoading,popularMoviesError,popularMoviesItem.results)}/>}
-            <h4 className={classes['movie-list__title']}>Top Rated</h4>
-            {!topRatedMoviesItem && renderMovieList(topRatedMoviesIsLoading,topRatedMoviesError,topRatedMoviesItem)}
-            {topRatedMoviesItem &&<Carousal list={renderMovieList(topRatedMoviesIsLoading,topRatedMoviesError,topRatedMoviesItem.results)}/>}
+            <h4 className={classes['movie-list__title']}>{props.category}</h4>
+            {item.length===0 && (isLoading || error ) && renderMovieList(isLoading,error,item)}
+            {item.length>0 &&<Carousal list={renderMovieList(isLoading,error,item)} carousal={props.carousal}/>}
         </React.Fragment>
     )
 }

@@ -4,25 +4,32 @@
   padding: .5rem 0;
 }
 
-.carousal__list{
+.carousal__list,
+.trailer__carousal__list{
   height: 24rem;
-  
   display: grid;
   grid-gap: 1.5rem;
   grid-auto-flow: column;
   overflow-x:scroll;
 }
+
+.trailer__carousal__list{
+  height: 18rem;
+}
  
-.carousal__list::-webkit-scrollbar {
+.carousal__list::-webkit-scrollbar,
+.trailer__carousal__list::-webkit-scrollbar{
   height: .5vw;
 }
    
-.carousal__list::-webkit-scrollbar-track {
+.carousal__list::-webkit-scrollbar-track,
+.trailer__carousal__list::-webkit-scrollbar-track{
   background: rgb(255, 255, 255);
   border-radius: 100vw;
 }
    
-.carousal__list::-webkit-scrollbar-thumb {
+.carousal__list::-webkit-scrollbar-thumb,
+.trailer__carousal__list::-webkit-scrollbar-thumb{
   background: rgb(221, 218, 218);
   border-radius: 100vw;
 }
@@ -30,6 +37,12 @@
 .carousal__item{
   width:10rem;
   height:16rem;
+  animation: fade-in .7s ease-in ;
+}
+
+.trailer__carousal__item{
+  width:20rem;
+  height:12rem;
   animation: fade-in .7s ease-in ;
 }
 

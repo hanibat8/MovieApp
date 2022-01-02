@@ -1,0 +1,21 @@
+.label{
+    display: block;
+}
+
+.input{
+    width: 100%;
+    padding: .4rem 0;
+    border-radius: .5rem;
+    border: 1px solid rgb(159, 159, 159);
+    margin-bottom: 1rem;
+}
+
+.error{
+    color: rgb(218, 64, 64);
+    margin: 0;
+    font-weight: 600;
+}
+
+.input.error{
+    background-color: rgb(214, 154, 154);
+}
