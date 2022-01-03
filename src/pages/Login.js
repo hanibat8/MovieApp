@@ -9,7 +9,7 @@ const Login=()=>{
 
     const checkEmailHandler=(enteredEmail)=>!enteredEmail.includes('@');
 
-    const emailIsValidHandler=(enteredEmail)=>checkEmptyHandler(enteredEmail) || checkEmailHandler(enteredEmail);
+    const emailIsInvalidHandler=(enteredEmail)=>checkEmptyHandler(enteredEmail) || checkEmailHandler(enteredEmail);
 
     return (
         <React.Fragment>
@@ -17,7 +17,7 @@ const Login=()=>{
             <div className={classes['login__form__container']}>
                 <form className={classes['login__form']}>
                     <h2 className={classes['login__form__heading']}>Login</h2>
-                    <Input onValidation={emailIsValidHandler} htmlFor='email' type='email' id='email' title='Email'/>
+                    <Input onValidation={emailIsInvalidHandler} htmlFor='email' type='email' id='email' title='Email'/>
                     <Input onValidation={checkEmptyHandler} htmlFor='password' type='password' id='password' title='Password' />
                     <button className={classes['login__form__btn']}>Login</button>
                 </form>

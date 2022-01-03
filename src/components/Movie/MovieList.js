@@ -10,12 +10,12 @@ const renderMovieList=(isLoading,error,item)=>{
     //console.log(props);
 
     if(isLoading){
-        console.log('in loading');
+        //console.log('in loading');
         content= <div className={classes.centered}><LoadingSpinner/></div>
     }
 
     if(error){
-        console.log('error');
+        //console.log('error');
         content= <div className={classes.centered}>{error}</div>
 
     }
@@ -35,6 +35,7 @@ const MovieList=(props)=>{
     //console.log(item);
    
     useEffect(()=>{
+        //console.log('Requsut sent');
         sendRequest(props.url);
         
         return()=>{

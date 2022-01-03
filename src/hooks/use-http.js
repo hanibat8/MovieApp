@@ -32,9 +32,9 @@ const useHttp=()=>{
         setItems([]);
     },[]);
 
-    console.log(isLoading);
-    console.log(item);
-    console.log(error);
+    //console.log(isLoading);
+    //console.log(item);
+    //console.log(error);
 
     return{
         sendRequest,
