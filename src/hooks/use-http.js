@@ -3,23 +3,26 @@ import { useCallback, useState } from "react";
 const useHttp=()=>{
     const [isLoading,setIsLoading]=useState(false);
     const [error,setError]=useState(null);
-    const [item,setItems]=useState([]);
+    const [response,setResponse]=useState([]);
 
-
-    const sendRequest=useCallback(async (url)=>{
+    const sendRequest=useCallback(async (requestConfig)=>{
 
         setIsLoading(true);
         setError(null);
 
         try{
-            const response=await fetch(url);
+            const response=await fetch(requestConfig.url,{
+                method:requestConfig.method?requestConfig.method:'GET',
+                headers:requestConfig.headers?requestConfig.headers:{},
+                body:requestConfig.body?JSON.stringify(requestConfig.body):null,
+            });
 
             if(!response.ok){
                 throw new Error('Something went wrong');
             }
 
             const data=await response.json();
-            setItems(data.results);
+            setResponse(data.results);
         }
         catch(err){
             setError(err.message || 'Something went wrong');
@@ -29,7 +32,7 @@ const useHttp=()=>{
     },[])
 
     const unsetState=useCallback(()=>{
-        setItems([]);
+        setResponse([]);
     },[]);
 
     //console.log(isLoading);
@@ -39,7 +42,7 @@ const useHttp=()=>{
     return{
         sendRequest,
         unsetState,
-        item,
+        response,
         isLoading,
         error
     }

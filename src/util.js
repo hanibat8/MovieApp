@@ -1,15 +1,18 @@
-const useResponseItem=(isLoading,error,item)=>{
+import LoadingSpinner from './components/UI/LoadingSpinner';
+import './util';
+
+export const renderResponseItem=(isLoading,error,item)=>{
     let content;
     //console.log(props);
 
     if(isLoading){
         console.log('in loading');
-        content= <div className={classes.centered}><LoadingSpinner/></div>
+        content= <div className='centered'><LoadingSpinner/></div>
     }
 
     if(error){
         console.log('error');
-        content= <div className={classes.centered}>{error}</div>
+        content= <div className='centered'>{error}</div>
 
     }
     //console.log(item);

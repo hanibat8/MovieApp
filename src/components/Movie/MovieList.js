@@ -1,11 +1,11 @@
 import { useEffect } from 'react/cjs/react.development';
 import useHttp from '../../hooks/use-http';
-import LoadingSpinner from '../UI/LoadingSpinner';
-import classes from './MovieList.module.css';
+import {renderResponseItem} from '../../util';
 import Carousal from '../Carousal/Carousal';
+import classes from './MovieList.module.css';
 import React from 'react';
 
-const renderMovieList=(isLoading,error,item)=>{
+/*const renderMovieList=(isLoading,error,item)=>{
     let content;
     //console.log(props);
 
@@ -27,16 +27,16 @@ const renderMovieList=(isLoading,error,item)=>{
     }
 
     return content;
-}
+}*/
 
 const MovieList=(props)=>{
 
-    const {sendRequest,item,error,isLoading,unsetState}=useHttp();
+    const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
     //console.log(item);
    
     useEffect(()=>{
         //console.log('Requsut sent');
-        sendRequest(props.url);
+        sendRequest({url:props.url});
         
         return()=>{
             unsetState();
@@ -47,8 +47,8 @@ const MovieList=(props)=>{
         //<div></div>
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
-            {item.length===0 && (isLoading || error ) && renderMovieList(isLoading,error,item)}
-            {item.length>0 &&<Carousal list={renderMovieList(isLoading,error,item)} carousal={props.carousal}/>}
+            {item.length===0 && (isLoading || error ) && renderResponseItem(isLoading,error,item)}
+            {item.length>0 &&<Carousal list={renderResponseItem(isLoading,error,item)} carousal={props.carousal}/>}
         </React.Fragment>
     )
 }
