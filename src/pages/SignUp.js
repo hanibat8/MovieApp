@@ -1,13 +1,33 @@
+import React,{useContext,useEffect} from 'react';
+import {useNavigate } from 'react-router-dom';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
 import classes from './Form.module.css';
-import React from 'react';
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import useHttp from '../hooks/use-http';
+import {renderResponseItem} from '../utils/util';
+import AuthContext from '../store/auth-context';
 
 const SignUp=()=>{
-    const {sendRequest,response,isLoading,error}=useHttp();
+    const {sendRequest,unsetState,response,isLoading,error}=useHttp();
+
+    const authContext=useContext(AuthContext);
+    const navigate=useNavigate ();
+
+    const isLoggedIn=authContext.isLoggedIn;
+
+    useEffect(()=>{
+       // !error && !isLoading && response && authContext.logIn(response.idToken);
+       response && authContext.logIn(response.idToken);   
+       isLoggedIn && navigate('/');
+    },[response,authContext,isLoggedIn])
+
+    useEffect(()=>{
+        return()=>{
+            unsetState();
+        }
+    },[unsetState])
 
     return(
         <React.Fragment>
@@ -30,36 +50,24 @@ const SignUp=()=>{
                 .email("Invalid email address`")
                 .required("Required"),
             })}
-            onSubmit={async(values, { setSubmitting }) => {
-                try{
-                    const response=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC3tkL__9PuUSI_bZBzyJIAjxda4AHOZog',
-                    {
-                        method:'POST',
-                        body: JSON.stringify({
-                            email: values.email,
-                            password: values.password,
-                            returnSecureToken: true,
-                          }),
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
+            onSubmit={(values, { setSubmitting }) => {
+                 //unsetState();
+                 sendRequest({
+                    url:'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC3tkL__9PuUSI_bZBzyJIAjxda4AHOZog',
+                    method:'POST',
+                    body: JSON.stringify({
+                        email: values.email,
+                        password: values.password,
+                        returnSecureToken: true,
+                      }),
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
                     });
-        
-                    if(!response.ok){
-                        throw new Error(error);
-                    }
-                    setSubmitting(false);
-                    const data=await response.json();
-                    console.log(data);
-                }
-                catch(err){
-                    setSubmitting(false);
-                   console.log(err.message || 'Something went wrong');
-                }
-                    console.log(values);
-            }}>
+                
+                    !error && !isLoading && setSubmitting(false);
+                }}>
                 {formik => {
-                    //console.log('Formik props', formik)
                     return (
                         <div className={classes['form__container']}>
                             <Form className={classes['form']}>
@@ -79,7 +87,8 @@ const SignUp=()=>{
                                     name="confirmPassword"
                                     type="password"       
                                 />
-                                <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']}>Sign Up</button>
+                                {(isLoading || error) && renderResponseItem(isLoading,error,response)}
+                                {!isLoading &&  <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']}>Sign Up</button>}
                             </Form>
                         </div>
                     )

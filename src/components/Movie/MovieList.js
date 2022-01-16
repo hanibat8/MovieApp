@@ -1,35 +1,13 @@
-import { useEffect } from 'react/cjs/react.development';
+import React,{ useEffect } from 'react';
 import useHttp from '../../hooks/use-http';
-import {renderResponseItem} from '../../util';
+import {renderResponseItem} from '../../utils/util';
 import Carousal from '../Carousal/Carousal';
+import { useStore } from '../../hooks-store/store';
 import classes from './MovieList.module.css';
-import React from 'react';
-
-/*const renderMovieList=(isLoading,error,item)=>{
-    let content;
-    //console.log(props);
-
-    if(isLoading){
-        //console.log('in loading');
-        content= <div className={classes.centered}><LoadingSpinner/></div>
-    }
-
-    if(error){
-        //console.log('error');
-        content= <div className={classes.centered}>{error}</div>
-
-    }
-    //console.log(item);
-    if(item.length>0){
-      //  console.log(item);
-        content=item;
-        //console.log(content);
-    }
-
-    return content;
-}*/
 
 const MovieList=(props)=>{
+
+    const [movieState,dispatch]=useStore();
 
     const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
     //console.log(item);
@@ -41,14 +19,21 @@ const MovieList=(props)=>{
         return()=>{
             unsetState();
         }
-    },[sendRequest,unsetState])
+    },[sendRequest,unsetState]);
+
+    useEffect(()=>{
+        if(item){
+            let category=props.category;
+            dispatch('ADD_MOVIES',{[category]:item.results})
+        }
+    },[item]);
 
     return(
         //<div></div>
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
-            {item.length===0 && (isLoading || error ) && renderResponseItem(isLoading,error,item)}
-            {item.length>0 &&<Carousal list={renderResponseItem(isLoading,error,item)} carousal={props.carousal}/>}
+            {item && (isLoading || error ) && renderResponseItem(isLoading,error,item.results)}
+            {item &&<Carousal list={renderResponseItem(isLoading,error,item.results)} carousal={props.carousal} category={props.category}/>}
         </React.Fragment>
     )
 }

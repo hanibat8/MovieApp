@@ -90,3 +90,12 @@
 .navbar__link__dropdown:hover .navbar__link__dropdown{
     display: block;
 }
+
+.navbar__btn{
+   
+    font-weight: 700;
+    color:#fff;
+    background-color:transparent;
+    border: none;
+    cursor: pointer;
+}

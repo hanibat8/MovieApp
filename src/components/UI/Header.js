@@ -1,9 +1,21 @@
 import './Header.css';
 import Search from './../Search/Search';
-import {Fragment} from 'react';
-import { Link } from 'react-router-dom';
+import {Fragment,useContext} from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import AuthContext from '../../store/auth-context';
 
 const Header=()=>{
+
+    const authContext=useContext(AuthContext);
+    const isLoggedIn=authContext.isLoggedIn;
+
+    const navigate=useNavigate();
+
+    const logoutHandler=()=>{
+        authContext.logOut();
+        navigate('/');
+    }
+
     return(
         <Fragment>
             <div className='header__container'>
@@ -38,12 +50,24 @@ const Header=()=>{
                             </Link>
                         </div>
                         <div className={`navbar__login`}>
-                            <Link to='/signUp' className={`navbar__link`}>
-                                Join TMDB
-                            </Link>
-                            <Link to='/logIn' className={`navbar__link`}>
-                                Login
-                            </Link>
+                            {!isLoggedIn &&
+                                <Fragment> 
+                                    <Link to='/signUp' className={`navbar__link`}>
+                                        Join TMDB
+                                    </Link>  
+                                    <Link to='/logIn' className={`navbar__link`}>
+                                        Login
+                                    </Link>   
+                                </Fragment>
+                                }
+                            {isLoggedIn && 
+                                <Fragment> 
+                                    <Link to='/profile' className={`navbar__link`}>
+                                         Profile
+                                    </Link> 
+                                    <button className={`navbar__btn`} onClick={logoutHandler}>Logout</button>
+                                </Fragment>
+                            }
                         </div>
                     </div>
                     <Search/>
