@@ -1,9 +1,9 @@
 import React,{ useEffect } from 'react';
+import MovieItem from './MovieItem';
+import classes from './MovieList.module.css';
 import useHttp from '../../hooks/use-http';
 import {renderResponseItem} from '../../utils/util';
-import Carousal from '../Carousal/Carousal';
 import { useStore } from '../../hooks-store/store';
-import classes from './MovieList.module.css';
 
 const MovieList=(props)=>{
 
@@ -13,7 +13,7 @@ const MovieList=(props)=>{
     //console.log(item);
    
     useEffect(()=>{
-        //console.log('Requsut sent');
+        //console.log('Request sent');
         sendRequest({url:props.url});
         
         return()=>{
@@ -28,12 +28,13 @@ const MovieList=(props)=>{
         }
     },[item]);
 
+    console.log(item);
+
     return(
-        //<div></div>
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
-            {item && (isLoading || error ) && renderResponseItem(isLoading,error,item.results)}
-            {item &&<Carousal list={renderResponseItem(isLoading,error,item.results)} carousal={props.carousal} category={props.category}/>}
+            {(isLoading || error ) && renderResponseItem(isLoading,error)} 
+            {item &&<MovieItem list={renderResponseItem(isLoading,error,item.results)} carousal={props.carousal} category={props.category}/>}
         </React.Fragment>
     )
 }

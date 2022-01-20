@@ -1,30 +1,35 @@
-import merge from 'lodash/merge';
 import { initStore } from "./store"
+
+const idExists=(arr,id)=>arr.some(item=>item.movieId===id);
+const filteredArr=(arr,id)=>arr.filter(item=>item.movieId!=id);
 
 const configureStore=()=>{
     const actions={
         TOGGLE_FAV:(curState,movieDetails)=>{
-            console.log(movieDetails)
+        
             let newFavoriteArr=[movieDetails];
-            //console.log(newFavoriteArr);
-            //console.log(movieDetails);
-            //newFavoriteArr.push(movieDetails);
-            //console.log(newFavoriteArr);
-            console.log(curState.favorite);
+            
             if(curState.favorite){
-                console.log(curState.favorite);
-                console.log(newFavoriteArr);
-                newFavoriteArr=[...newFavoriteArr,...curState.favorite];
-                console.log(newFavoriteArr);
+                if(idExists(curState.favorite,movieDetails.movieId))  newFavoriteArr=[...filteredArr(curState.favorite,movieDetails.movieId)];
+                else newFavoriteArr=[...newFavoriteArr,...curState.favorite];
             }
-            // curState.favorite.push(movieDetails.movieId);
-            // console.log(curState);
-
+        
             return {...curState,favorite:newFavoriteArr}
-
         },
+        TOGGLE_WISHLIST:(curState,movieDetails)=>{
+        
+            let newWishlistArr=[movieDetails];
+            
+            if(curState.wishlist){
+                if(idExists(curState.wishlist,movieDetails.movieId)) newWishlistArr=[...filteredArr(curState.wishlist,movieDetails.movieId)];
+                else newWishlistArr=[...newWishlistArr,...curState.wishlist];
+            }
+        
+            return {...curState,wishlist:newWishlistArr}
+        },
+
         ADD_MOVIES:(curState,movies)=>{
-            return {...movies}
+            return {...curState,...movies}
         }
     }
 
