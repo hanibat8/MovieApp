@@ -1,4 +1,5 @@
 import { initStore } from "./store"
+import uniqBy from 'lodash/uniqBy';
 
 const idExists=(arr,id)=>arr.some(item=>item.movieId===id);
 const filteredArr=(arr,id)=>arr.filter(item=>item.movieId!=id);
@@ -29,7 +30,18 @@ const configureStore=()=>{
         },
 
         ADD_MOVIES:(curState,movies)=>{
-            return {...curState,...movies}
+            let newMovieArr=[...movies];
+
+            if(curState.movie){
+                newMovieArr=[...newMovieArr,...curState.movie];
+                newMovieArr=uniqBy(newMovieArr, function (e) {//only get the unique array values
+                    return e.id;
+                });
+
+                console.log(newMovieArr);
+            }
+           
+            return {...curState,movie:newMovieArr};
         }
     }
 

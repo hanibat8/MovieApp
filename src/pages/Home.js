@@ -17,7 +17,7 @@ const Home=()=>{
                 </form>
             </div>
           <Layout >
-            <MovieList url={'https://api.themoviedb.org/3/movie/popular?api_key=5c8ece04ea5e1e31bb7e5630081968b6'} carousal='carousal' category={`What's Popular`}/>
+            <MovieList url={'https://api.themoviedb.org/3/movie/popular?api_key=5c8ece04ea5e1e31bb7e5630081968b6'} carousal='carousal' category={`Popular`}/>
             <MovieList url={'https://api.themoviedb.org/3/movie/top_rated?api_key=5c8ece04ea5e1e31bb7e5630081968b6'} carousal='carousal'  category={`Top Rated`}/>
             <MovieList url={'https://api.themoviedb.org/3/movie/now_playing?api_key=5c8ece04ea5e1e31bb7e5630081968b6'} carousal='carousal' category={`Upcoming `}/>
           </Layout>

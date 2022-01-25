@@ -7,11 +7,13 @@
     background-color: rgb(33, 21, 84);
     width: 100%;
     color: #fff;
+    text-align: center;
 }
 
 .header{
     display: flex;
     padding: 0rem 6rem;
+    height: 100%;
 }
 
 .navbar{

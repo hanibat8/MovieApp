@@ -10,7 +10,8 @@ const MovieList=(props)=>{
     const [movieState,dispatch]=useStore();
 
     const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
-    //console.log(item);
+    
+    console.log(movieState);
    
     useEffect(()=>{
         //console.log('Request sent');
@@ -23,12 +24,9 @@ const MovieList=(props)=>{
 
     useEffect(()=>{
         if(item){
-            let category=props.category;
-            dispatch('ADD_MOVIES',{[category]:item.results})
+            dispatch('ADD_MOVIES',item.results)
         }
     },[item]);
-
-    console.log(item);
 
     return(
        <React.Fragment>

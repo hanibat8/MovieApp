@@ -1,4 +1,3 @@
-import merge from 'lodash/merge';
 import {useState,useEffect} from 'react';
 
 let globalState={};
@@ -7,6 +6,7 @@ let actions={};
 
 export const useStore=()=>{
     const [state,setState]=useState(globalState);
+    console.log(state);
 
     const dispatch=(actionIdentifier,payload)=>{
         const newState=actions[actionIdentifier](globalState,payload);
