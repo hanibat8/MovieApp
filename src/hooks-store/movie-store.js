@@ -38,7 +38,7 @@ const configureStore=()=>{
                     return e.id;
                 });
 
-                console.log(newMovieArr);
+                //console.log(newMovieArr);
             }
            
             return {...curState,movie:newMovieArr};

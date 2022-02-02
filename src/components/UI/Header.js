@@ -3,6 +3,7 @@ import Search from './../Search/Search';
 import {Fragment,useContext} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import AuthContext from '../../store/auth-context';
+import Layout from './Layout';
 
 const Header=()=>{
 
@@ -19,6 +20,7 @@ const Header=()=>{
     return(
         <Fragment>
             <div className='header__container'>
+                <Layout>
                 <div className={`header`}>
                     <div className={`navbar`}>
                         <div className={`navbar__links`}>
@@ -72,6 +74,7 @@ const Header=()=>{
                     </div>
                     <Search/>
                 </div>
+                </Layout>
             </div>
         </Fragment>
     )

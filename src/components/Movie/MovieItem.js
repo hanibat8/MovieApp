@@ -23,25 +23,25 @@ const MovieItem=(props)=>{
 
     if(props.list.length>0){
         content=props.list.map((movie)=>{
-            return <div key={movie.id} className={classes[`${props.carousal}__item`]}>
-                        <input className={classes['carousal__item--checkbox']} type="checkbox" id="btnControl"/>                   
-                        <div className={classes['carousal__item--icon__container']}>
-                            <img className={classes['carousal__item--icon']} src={optionIcon}/>
+            return <div key={movie.id} className={classes[`movie-item`]}>
+                        <input className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
+                        <div className={classes['movie-item--icon__container']}>
+                            <img className={classes['movie-item--icon']} src={optionIcon}/>
                         </div>
-                        <div className={classes[`carousal__item__dropdown`]}>
+                        <div className={classes[`movie-item__dropdown`]}>
                             <ul>
-                                <li className={classes[`carousal__item__list`]}>
-                                    <button className={classes[`carousal__item__btn`]} onClick={toggleWishlistHandler.bind(this,movie)}>{state.wishlist && isMovieWishlisted(movie.id)? `Remove from wishlist`:`Add to wishlist`}</button>
+                                <li className={classes[`movie-item__list`]}>
+                                    <button className={classes[`movie-item__btn`]} onClick={toggleWishlistHandler.bind(this,movie)}>{state.wishlist && isMovieWishlisted(movie.id)? `Remove from wishlist`:`Add to wishlist`}</button>
                                 </li>
-                                <li className={classes[`carousal__item__list`]} >
-                                    <button className={classes[`carousal__item__btn`]} onClick={toggleFavHandler.bind(this,movie)}>{state.favorite && isMovieFavorited(movie.id)? `Unfavorite` :`Favorite`}</button>
+                                <li className={classes[`movie-item__list`]} >
+                                    <button className={classes[`movie-item__btn`]} onClick={toggleFavHandler.bind(this,movie)}>{state.favorite && isMovieFavorited(movie.id)? `Unfavorite` :`Favorite`}</button>
                                 </li>
                             
                             </ul>
                         </div>
                         <Link to={`/movies/${movie.id}`}>
-                            <img className={classes['carousal__item--img']} src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path}/>      
-                            <h4 className={classes['carousal__item--name']}>{movie.original_title}</h4>
+                            <img className={classes['movie-item--img']} src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path}/>      
+                            <h4 className={classes['movie-item--name']}>{movie.original_title}</h4>
                         </Link>
                 </div>
             }       

@@ -6,7 +6,7 @@ let actions={};
 
 export const useStore=()=>{
     const [state,setState]=useState(globalState);
-    console.log(state);
+    //console.log(state);
 
     const dispatch=(actionIdentifier,payload)=>{
         const newState=actions[actionIdentifier](globalState,payload);

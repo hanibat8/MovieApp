@@ -4,7 +4,7 @@
     left: 0;
     z-index: 9999;
     height: 4rem;
-    background-color: rgb(33, 21, 84);
+    background-color: rgb(21, 14, 54);
     width: 100%;
     color: #fff;
     text-align: center;
@@ -12,7 +12,6 @@
 
 .header{
     display: flex;
-    padding: 0rem 6rem;
     height: 100%;
 }
 
@@ -29,7 +28,6 @@
 }
 
 .navbar__link{
-    margin-left: 1.5rem;
     font-weight: 700;
     text-decoration: none;
     color:#fff;
@@ -37,6 +35,10 @@
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.navbar__link:not(:first-of-type){
+    margin-left: 1.5rem;
 }
 
 .navbar__list{

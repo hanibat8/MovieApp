@@ -23,11 +23,9 @@ const Search=()=>{
 
     const debounceChangeHandler=useCallback(debounce(searchQueryHandler,400),[]);
 
-    console.log(globalState);
-
     const filterMovies=(query)=>{
         let arr=globalState?.movie?.filter(mov=> {return mov.original_title.toLowerCase().startsWith(query)});
-        console.log(arr);
+        //console.log(arr);
         setFilteredMovies(arr);       
     }
 

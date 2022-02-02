@@ -11,7 +11,7 @@ const MovieList=(props)=>{
 
     const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
     
-    console.log(movieState);
+    //console.log(movieState);
    
     useEffect(()=>{
         //console.log('Request sent');
@@ -32,7 +32,7 @@ const MovieList=(props)=>{
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
             {(isLoading || error ) && renderResponseItem(isLoading,error)} 
-            {item &&<MovieItem list={renderResponseItem(isLoading,error,item.results)} carousal={props.carousal} category={props.category}/>}
+            {item &&<MovieItem list={renderResponseItem(isLoading,error,item.results)} category={props.category}/>}
         </React.Fragment>
     )
 }
