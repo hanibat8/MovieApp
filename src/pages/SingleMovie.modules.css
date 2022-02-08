@@ -2,7 +2,7 @@
    height: 32rem;
    background-repeat: no-repeat;
    background-size: cover;
-
+    color: #fff;
 }
 
 .single-movie--detail__container{
@@ -13,8 +13,9 @@
 }
 
 .single-movie--img__container{
-    width: 18rem;
-    height: 28rem;
+    width: 25rem;
+    height: 25rem;
+    flex:.6;
 }
 
 .single-movie--img{
@@ -29,10 +30,11 @@
 .single-movie--info__container{
     color: #fff;
     margin-left: 3rem;
+    flex: 2;
 }
 
 .single-movie--heading{
-    font-size: 2rem;
+    font-size: 2.4rem;
     margin: 0;
     margin-bottom: .4rem;
 }
@@ -49,9 +51,57 @@
     margin-right: .7rem;
 }
 
+.single-movie--runtime::before,
+.single-movie--date::after{
+    content: '';
+    width: .3rem;
+    height: .3rem;
+    border-radius: 50%;
+    background: #fff;
+    display: inline-block;
+    margin-right: .5rem;
+}
+
+.single-movie--date::after{
+    margin-left: .5rem;
+}
+
 .single-movie--buttons{
     margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
 }
+
+.single-movie--button{
+    cursor: pointer;
+    background-color: rgb(35, 23, 88);
+    border: none;
+    display: flex;
+    align-items: center;
+   padding: .6rem;
+    border-radius: 50%;
+}
+
+.single-movie--button:not(:last-of-type){
+    margin-right: 1rem;
+}
+
+.single-movie--play-button{
+    background-color: transparent;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.single-movie--play-button--img{
+    background-color: rgba(113, 113, 113, 0.496);
+    margin-right: .5rem;
+}
+
 
 .single-movie--user-score--container{
     background-color: rgb(21, 14, 54);
@@ -60,14 +110,24 @@
     width: fit-content;
     display: flex;
     align-items: center;
+    margin-right: 1rem;
 }
 
 .single-movie--user-score{
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     padding:.7rem .5rem;
     border-radius: 50%;
     border: 4px solid green;
     background-color: rgb(21, 14, 54);
     display: flex;
     align-items: center;
+}
+
+.single-movie--tagline{
+    font-style: italic;
+    color: rgb(187, 187, 187);
+}
+
+.single-movie--overview{
+    width: 70%;
 }

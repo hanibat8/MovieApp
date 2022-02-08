@@ -3,6 +3,7 @@ import { useStore } from '../../hooks-store/store';
 import { Link } from 'react-router-dom';
 import Carousal from '../Carousal/Carousal';
 import classes from './MovieItem.module.css';
+import CarousalItem from '../Carousal/CarousalItem';
 
 const MovieItem=(props)=>{
     const[state,dispatch]=useStore();
@@ -23,7 +24,7 @@ const MovieItem=(props)=>{
 
     if(props.list.length>0){
         content=props.list.map((movie)=>{
-            return <div key={movie.id} className={classes[`movie-item`]}>
+            return <CarousalItem>
                         <input className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
                         <div className={classes['movie-item--icon__container']}>
                             <img className={classes['movie-item--icon']} src={optionIcon}/>
@@ -43,7 +44,7 @@ const MovieItem=(props)=>{
                             <img className={classes['movie-item--img']} src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path}/>      
                             <h4 className={classes['movie-item--name']}>{movie.original_title}</h4>
                         </Link>
-                </div>
+                </CarousalItem>
             }       
         )
     }

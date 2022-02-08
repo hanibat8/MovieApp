@@ -20,7 +20,7 @@
  
 .carousal__list::-webkit-scrollbar,
 .trailer__carousal__list::-webkit-scrollbar{
-  height: .5vw;
+  height: .7vw;
 }
    
 .carousal__list::-webkit-scrollbar-track,
@@ -34,3 +34,4 @@
   background: rgb(221, 218, 218);
   border-radius: 100vw;
 }
+

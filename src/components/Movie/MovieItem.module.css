@@ -2,12 +2,11 @@ a{
     text-decoration: none;
     color: inherit;
 }
-
  
 .movie-item{
     position: relative;
-    width:10rem;
-    height:16rem;
+    width:9.5rem;
+    height:15rem;
     animation: fade-in .7s ease-in ;
 }
   
