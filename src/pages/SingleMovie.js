@@ -2,15 +2,20 @@ import Header from "../components/UI/Header";
 import Footer from "../components/UI/Footer";
 import classes from './SingleMovie.modules.css';
 import Layout from "../components/UI/Layout";
+import Carousal from "../components/Carousal/Carousal";
+import CarousalItem from "../components/Carousal/CarousalItem";
+
 import {useEffect} from 'react';
 import useHttp from '../hooks/use-http';
 import { useParams } from "react-router-dom";
+import { useStore } from '../hooks-store/store';
 import {renderResponseItem} from '../utils/util';
+
 import heartIcon from '../assets/heart-outlined.png';
-import boolMarkIcon from '../assets/bookmark.png';
+import bookMarkIcon from '../assets/bookmark_outline.png';
+import heartIconPressed from '../assets/heart.png';
+import boolMarkIconPressed from '../assets/bookmark2.png';
 import playIcon from '../assets/controller-play.png';
-import Carousal from "../components/Carousal/Carousal";
-import CarousalItem from "../components/Carousal/CarousalItem";
 
 const mapGenres=(genreArr)=>genreArr.map((genre)=><span key={genre.id} className="single-movie--genre">{`${genre.name}`}</span>);
 
@@ -18,6 +23,20 @@ const SingleMovie=(props)=>{
 
     const params=useParams();
     const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
+
+    const[state,dispatch]=useStore();
+
+    const toggleFavHandler=(movie)=>{
+       dispatch('TOGGLE_FAV',{movieId:movie.id,category:props.category});
+    }
+
+    const toggleWishlistHandler=(movie)=>{
+        dispatch('TOGGLE_WISHLIST',{movieId:movie.id,category:props.category});
+    }
+
+    const isMovieFavorited=(id,favArr=state.favorite)=>favArr.some(fav=>fav.movieId===id);
+
+    const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
    
     console.log(movie);
 
@@ -50,38 +69,75 @@ const SingleMovie=(props)=>{
                                     <div className={`single-movie--img__container`}>
                                         <img src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path} className={'single-movie--img'}/>
                                     </div>
+                                   
                                     <div className={'single-movie--info__container'}>
                                         <h2 className="single-movie--heading">{movie.original_title}<span className="single-movie--heading--year">{`(${movie.release_date.split('-')[0]})`}</span></h2>
                                         <span className="single-movie--date">{movie.release_date.split('-').join('/')}</span>
                                         {mapGenres(movie.genres)}
                                         <span className="single-movie--runtime">{`${movie.runtime}m`}</span>
+                                        
                                         <div className="single-movie--buttons">
                                             <div className="single-movie--user-score--container">
-                                                <span className="single-movie--user-score">{movie.vote_average*10}<sup>%</sup></span>
+                                                <div className="single-movie--user-score"></div>
+                                                <span>{movie.vote_average*10}<sup>%</sup></span>
                                             </div>
-                                            <button className="single-movie--button">
-                                                <img src={heartIcon}/>
+                                            
+                                            <button className="single-movie--button" onClick={toggleFavHandler.bind(this,movie)}>
+                                                {state.favorite && isMovieFavorited(movie.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>}
                                             </button>
-                                            <button className="single-movie--button">
-                                                <img src={boolMarkIcon}/>
+                                            
+                                            <button className="single-movie--button" onClick={toggleWishlistHandler.bind(this,movie)}>
+                                                {state.wishlist && isMovieWishlisted(movie.id) ? <img src={boolMarkIconPressed}/> : <img src={bookMarkIcon}/>}
                                             </button>
+                                            
                                             <button className="single-movie--play-button">
                                                 <img className="single-movie--play-button--img" src={playIcon}/>
                                                 <span>Play Trailer</span>
                                             </button>
                                         </div>
                                     <p className="single-movie--tagline">{movie.tagline}</p>
+                                    
                                     <div className="single-movie--overview">
                                         <h3>Overview</h3>
-                                        <p>{movie.overview}</p>
+                                        <p>{movie.overview}</p>                                    
                                     </div>
+                                    
                                     </div>
                                 </div>
                             </Layout>
                         </div>
-                        <Layout>
-                        <h2>Top Billed Cast</h2>
-                        <Carousal>{cast}</Carousal>
+                        <Layout className='single-movie--details__container'>
+                            <div className="single-movie--details--cast">
+                                <h2>Top Billed Cast</h2>
+                                <Carousal>{cast}</Carousal>
+                            </div>
+                            
+                            <div className="single-movie--detail">
+                                <div className="single-movie--detail--single-detail">
+                                    <h4 className="single-movie--detail--single-detail--heading">Original Title</h4>
+                                    <span className="single-movie--detail--single-detail--value">{movie.original_title}</span>
+                                </div>
+                                
+                                <div className="single-movie--detail--single-detail">
+                                    <h4 className="single-movie--detail--single-detail--heading">Status</h4>
+                                    <span className="single-movie--detail--single-detail--value">{movie.status}</span>
+                                </div>
+                                
+                                <div className="single-movie--detail--single-detail">
+                                    <h4 className="single-movie--detail--single-detail--heading">Original Language</h4>
+                                    <span className="single-movie--detail--single-detail--value">{movie.original_language}</span>
+                                </div>
+                                
+                                <div className="single-movie--detail--single-detail">
+                                    <h4 className="single-movie--detail--single-detail--heading">Budget</h4>
+                                    <span className="single-movie--detail--single-detail--value">{movie.budget> 0 ? movie.budget : '-'}</span>
+                                </div>
+                                
+                                <div className="single-movie--detail--single-detail">
+                                    <h4 className="single-movie--detail--single-detail--heading">Revenue</h4>
+                                    <span className="single-movie--detail--single-detail--value">{movie.revenue> 0 ? movie.revenue : '-'}</span>
+                                </div>
+                            </div>
                         </Layout>
                         </>}
             <Footer/>
