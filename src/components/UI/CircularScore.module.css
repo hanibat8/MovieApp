@@ -1,0 +1,24 @@
+.circular-score--container{
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-right: .5rem;
+}
+
+.circular-score--container::before{
+    content: "";
+    position: absolute;
+    height: 84%;
+    width: 84%;
+    background-color: rgb(21, 14, 54);
+    border-radius: 50%;
+}
+
+.circular-score{
+    position: relative;
+    font-size: .9rem;
+    color:#fff;
+}

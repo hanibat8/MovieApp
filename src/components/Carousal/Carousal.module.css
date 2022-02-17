@@ -15,7 +15,8 @@
 }
 
 .trailer__carousal__list{
-  height: 18rem;
+  grid-template-columns: repeat(20,20rem);
+  grid-template-rows: 15rem;
 }
  
 .carousal__list::-webkit-scrollbar,

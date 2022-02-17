@@ -101,20 +101,38 @@ a{
     border: none;
     cursor: pointer;
 }
+
   
 .movie-item--checkbox:checked ~ .movie-item__dropdown {
    display: block;
 }
-   
+
+.movie-item--container{
+    height: 100%;
+    width: 100%;
+}
+
 .movie-item--img{
     box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover;
+    object-fit:cover;
     border-radius: 1rem;
 }
    
 .movie-item--name{
     margin: 1rem .7rem; 
+    margin-top: 2rem;
+}
+
+.movie-item--score{
+    position: absolute;
+    bottom: -5%;
+    left: 4%;
+}
+
+.movie--item--score{
+    height: 2rem;
+    width: 2rem;
 }

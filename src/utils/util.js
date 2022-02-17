@@ -11,7 +11,7 @@ export const renderResponseItem=(isLoading,error,item=null)=>{
         return <div className={classes.centered}>{error}</div>;
     }
    
-    else{
+    else if(item){
         return item;
     }
 

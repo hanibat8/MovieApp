@@ -4,7 +4,7 @@ let globalState={};
 let listeners=[];
 let actions={};
 
-export const useStore=()=>{
+export const useStore=(shouldLListen=true)=>{
     const [state,setState]=useState(globalState);
     //console.log(state);
 
@@ -19,12 +19,17 @@ export const useStore=()=>{
     }
 
     useEffect(()=>{
-        listeners.push(setState);
+        if(shouldLListen){
+            listeners.push(setState);
+        }
 
         return()=>{
-            listeners=listeners.filter(li=>li!==setState);
+            if(shouldLListen){
+                listeners=listeners.filter(li=>li!==setState);
+            }
+            
         };
-    },[setState])
+    },[setState,shouldLListen])
 
     return [globalState,dispatch];
 }

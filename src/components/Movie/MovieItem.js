@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 import Carousal from '../Carousal/Carousal';
 import classes from './MovieItem.module.css';
 import CarousalItem from '../Carousal/CarousalItem';
+import React from 'react';
+import CircularScore from '../UI/CircularScore';
 
-const MovieItem=(props)=>{
+const MovieItem=props=>{
     const[state,dispatch]=useStore();
+    console.log('Movie Item render',state);
 
     let content;
 
@@ -21,10 +24,11 @@ const MovieItem=(props)=>{
     const isMovieFavorited=(id,favArr=state.favorite)=>favArr.some(fav=>fav.movieId===id);
 
     const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
-
+    
     if(props.list.length>0){
+        
         content=props.list.map((movie)=>{
-            return <CarousalItem>
+            return <CarousalItem category={props.category}>
                         <input className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
                         <div className={classes['movie-item--icon__container']}>
                             <img className={classes['movie-item--icon']} src={optionIcon}/>
@@ -32,17 +36,23 @@ const MovieItem=(props)=>{
                         <div className={classes[`movie-item__dropdown`]}>
                             <ul>
                                 <li className={classes[`movie-item__list`]}>
-                                    <button className={classes[`movie-item__btn`]} onClick={toggleWishlistHandler.bind(this,movie)}>{state.wishlist && isMovieWishlisted(movie.id)? `Remove from wishlist`:`Add to wishlist`}</button>
+                                    <button className={classes[`movie-item__btn`]}onClick={toggleWishlistHandler.bind(this,movie)}>{state.wishlist && isMovieWishlisted(movie.id)? `Remove from wishlist`:`Add to wishlist`}</button>
                                 </li>
                                 <li className={classes[`movie-item__list`]} >
-                                    <button className={classes[`movie-item__btn`]} onClick={toggleFavHandler.bind(this,movie)}>{state.favorite && isMovieFavorited(movie.id)? `Unfavorite` :`Favorite`}</button>
+                                    <button className={classes[`movie-item__btn`]}  onClick={toggleFavHandler.bind(this,movie)}>{state.favorite && isMovieFavorited(movie.id)? `Unfavorite` :`Favorite`}</button>
                                 </li>
                             
                             </ul>
                         </div>
                         <Link to={`/movies/${movie.id}`}>
-                            <img className={classes['movie-item--img']} src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path}/>      
-                            <h4 className={classes['movie-item--name']}>{movie.original_title}</h4>
+                                <div className={classes['movie-item--container']}>
+                                    <img className={classes['movie-item--img']} src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie.poster_path}/> 
+                                    <div className={classes['movie-item--score']}>
+                                        <CircularScore className={classes['movie--item--score']} score={movie.vote_average}/>
+                                    </div>
+                                </div>     
+                                <h4 className={classes['movie-item--name']}>{movie.original_title}</h4>
+                            
                         </Link>
                 </CarousalItem>
             }       
@@ -50,10 +60,11 @@ const MovieItem=(props)=>{
     }
 
     return(
-        <Carousal>
+       props.list.length>0 && <Carousal category={props.category}>
             {props.list.length>0 && content}
         </Carousal>
+    
     );
 }
 
-export default MovieItem;
+export default React.memo(MovieItem);

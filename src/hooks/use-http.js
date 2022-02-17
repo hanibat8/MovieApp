@@ -7,6 +7,8 @@ const useHttp=()=>{
 
     const sendRequest=useCallback(async (requestConfig)=>{
 
+        console.log('usehttp rerendering');
+
         setIsLoading(true);
         setError(null);
 

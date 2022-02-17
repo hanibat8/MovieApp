@@ -4,12 +4,12 @@ import classes from './SingleMovie.modules.css';
 import Layout from "../components/UI/Layout";
 import Carousal from "../components/Carousal/Carousal";
 import CarousalItem from "../components/Carousal/CarousalItem";
-
-import {useEffect} from 'react';
-import useHttp from '../hooks/use-http';
+import CircularScore from "../components/UI/CircularScore";
 import { useParams } from "react-router-dom";
 import { useStore } from '../hooks-store/store';
 import {renderResponseItem} from '../utils/util';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 import heartIcon from '../assets/heart-outlined.png';
 import bookMarkIcon from '../assets/bookmark_outline.png';
@@ -20,9 +20,10 @@ import playIcon from '../assets/controller-play.png';
 const mapGenres=(genreArr)=>genreArr.map((genre)=><span key={genre.id} className="single-movie--genre">{`${genre.name}`}</span>);
 
 const SingleMovie=(props)=>{
-
+    console.log('SingleMovie render');
     const params=useParams();
-    const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
+    //const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
+    const {isLoading,data:{data:movie}={},isError,error}=useQuery(params.movieId.toString(),()=>axios.get(`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`),{staleTime:Infinity});
 
     const[state,dispatch]=useStore();
 
@@ -38,16 +39,16 @@ const SingleMovie=(props)=>{
 
     const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
    
-    console.log(movie);
+    console.log(state);
 
-    useEffect(()=>{
+   /* useEffect(()=>{
         //console.log('Request sent');
         sendRequest({url:`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`});
         
         return()=>{
             unsetState();
         }
-    },[sendRequest,unsetState]);
+    },[sendRequest,unsetState]);*/
 
     
     const cast=movie?.genres.map((genre)=>{
@@ -62,7 +63,7 @@ const SingleMovie=(props)=>{
     return(
         <>
             <Header/>
-                {(isLoading || error ) && <div className='single-movie__container'>{renderResponseItem(isLoading,error)}</div>} 
+                {(isLoading || isError ) && <div className='single-movie__container'>{renderResponseItem(isLoading,error)}</div>} 
                 {movie && <> <div className='single-movie__container' style={{backgroundImage:`linear-gradient(rgba(27, 27, 27, 0.8),rgba(10, 10, 10, 0.8)), url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${movie.backdrop_path})`}}>
                             <Layout>
                                 <div className={`single-movie--detail__container`}>
@@ -77,10 +78,7 @@ const SingleMovie=(props)=>{
                                         <span className="single-movie--runtime">{`${movie.runtime}m`}</span>
                                         
                                         <div className="single-movie--buttons">
-                                            <div className="single-movie--user-score--container">
-                                                <div className="single-movie--user-score"></div>
-                                                <span>{movie.vote_average*10}<sup>%</sup></span>
-                                            </div>
+                                            <CircularScore score={movie.vote_average}/>
                                             
                                             <button className="single-movie--button" onClick={toggleFavHandler.bind(this,movie)}>
                                                 {state.favorite && isMovieFavorited(movie.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>}

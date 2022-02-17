@@ -1,9 +1,16 @@
-.carousal-item{
+.carousal-item,
+.trailer-carousal-item{
     position: relative;
     width:9.5rem;
     height:15rem;
     animation: fade-in .7s ease-in ;
 }
+
+.trailer-carousal-item{
+  width: 100%;
+  height: 100%;
+}
+
 
 @keyframes fade-in{
     from{
