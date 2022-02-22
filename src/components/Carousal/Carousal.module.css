@@ -11,12 +11,15 @@
   grid-gap: 1.5rem;
   grid-auto-flow: column;
   overflow-x:scroll;
+  overflow-y: hidden;
   text-decoration: none;
 }
 
 .trailer__carousal__list{
   grid-template-columns: repeat(20,20rem);
-  grid-template-rows: 15rem;
+  grid-template-rows: 12rem;
+  height: 20rem;
+  text-align: center;
 }
  
 .carousal__list::-webkit-scrollbar,

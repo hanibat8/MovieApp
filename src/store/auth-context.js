@@ -39,4 +39,12 @@ export const AuthContextProvider=(props)=>{
     )
 }
 
+export const useAuth=()=>{
+    const context = React.useContext(AuthContext)
+    if (context === undefined) {
+      throw new Error('useAuth must be used within a AuthContextProvider')
+    }
+    return context
+  }
+
 export default AuthContext;

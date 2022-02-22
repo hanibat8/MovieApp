@@ -6,6 +6,7 @@ import {renderResponseItem} from '../../utils/util';
 import { useStore } from '../../hooks-store/store';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import MovieTrailerItem from './MovieTrailerItem';
 
 const MovieList=(props)=>{
 
@@ -49,7 +50,9 @@ const MovieList=(props)=>{
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
             {(isLoading || isError ) && renderResponseItem(isLoading,error)} 
-            {(!isLoading && !isError) && item?.data?.results &&<MovieItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>}
+            {(!isLoading && !isError) && item?.data?.results && (props.category!='Trailer' ?
+            <MovieItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>:
+            <MovieTrailerItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>)}
         </React.Fragment>
     )
 }

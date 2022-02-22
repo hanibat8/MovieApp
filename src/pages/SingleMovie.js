@@ -5,10 +5,14 @@ import Layout from "../components/UI/Layout";
 import Carousal from "../components/Carousal/Carousal";
 import CarousalItem from "../components/Carousal/CarousalItem";
 import CircularScore from "../components/UI/CircularScore";
+import AuthContext from "../store/auth-context";
 import { useParams } from "react-router-dom";
 import { useStore } from '../hooks-store/store';
+import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
 import {renderResponseItem} from '../utils/util';
 import { useQuery } from 'react-query';
+import { useAuth } from "../store/auth-context";
 import axios from 'axios';
 
 import heartIcon from '../assets/heart-outlined.png';
@@ -22,6 +26,15 @@ const mapGenres=(genreArr)=>genreArr.map((genre)=><span key={genre.id} className
 const SingleMovie=(props)=>{
     console.log('SingleMovie render');
     const params=useParams();
+
+    const authContext=useAuth();
+    const isLoggedIn=authContext.isLoggedIn;
+
+    let navigate = useNavigate();
+
+    const navigateToSignUpPage=()=> navigate('/signUp'); 
+
+    const navigateToLoginInForm=()=> navigate('/login');
     //const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
     const {isLoading,data:{data:movie}={},isError,error}=useQuery(params.movieId.toString(),()=>axios.get(`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`),{staleTime:Infinity});
 
@@ -80,11 +93,11 @@ const SingleMovie=(props)=>{
                                         <div className="single-movie--buttons">
                                             <CircularScore score={movie.vote_average}/>
                                             
-                                            <button className="single-movie--button" onClick={toggleFavHandler.bind(this,movie)}>
+                                            <button className="single-movie--button" onClick={isLoggedIn ? toggleFavHandler.bind(this,movie):navigateToSignUpPage}>
                                                 {state.favorite && isMovieFavorited(movie.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>}
                                             </button>
                                             
-                                            <button className="single-movie--button" onClick={toggleWishlistHandler.bind(this,movie)}>
+                                            <button className="single-movie--button" onClick={isLoggedIn ? toggleWishlistHandler.bind(this,movie):navigateToLoginInForm}>
                                                 {state.wishlist && isMovieWishlisted(movie.id) ? <img src={boolMarkIconPressed}/> : <img src={bookMarkIcon}/>}
                                             </button>
                                             

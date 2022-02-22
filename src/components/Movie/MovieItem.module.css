@@ -14,6 +14,7 @@ a{
     width:20rem;
     height:12rem;
     animation: fade-in .7s ease-in ;
+    font-size: 1.3rem;
 }
   
 @keyframes fade-in{
