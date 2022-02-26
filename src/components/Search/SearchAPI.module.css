@@ -1,0 +1,9 @@
+.filteredMovies{
+    background-color: white;
+    border: 1px solid rgb(255, 255, 255);
+    padding: .3rem;
+    color: #000;
+    padding: .6rem 7.2rem;
+    border-bottom: 1.5px solid rgb(199, 199, 199);
+    font: inherit;
+}

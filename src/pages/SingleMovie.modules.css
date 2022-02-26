@@ -1,8 +1,10 @@
+
 .single-movie__container{
    height: 32rem;
    background-repeat: no-repeat;
    background-size: cover;
-    color: #fff;
+   color: #fff;
+   background-color: rgba(0, 0, 0, 0.333);
 }
 
 .single-movie--detail__container{

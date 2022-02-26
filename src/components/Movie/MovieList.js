@@ -1,11 +1,8 @@
-import React,{ useEffect } from 'react';
+import React from 'react';
 import MovieItem from './MovieItem';
 import classes from './MovieList.module.css';
-import useHttp from '../../hooks/use-http';
 import {renderResponseItem} from '../../utils/util';
-import { useStore } from '../../hooks-store/store';
-import { useQuery } from 'react-query';
-import axios from 'axios';
+import {useMovies} from  '../../hooks/use-movies';
 import MovieTrailerItem from './MovieTrailerItem';
 
 const MovieList=(props)=>{
@@ -18,13 +15,12 @@ const MovieList=(props)=>{
         return data;
     }*/
 
-    const [movieState,dispatch]=useStore(false);
+    //const [movieState,dispatch]=useStore(false);
     console.log('movie list rendering')
 
     //const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
-
-    const {isLoading,data:item,isError,error}=useQuery(props.category,()=>axios.get(props.url),{staleTime:Infinity});
-    if(item) console.log(item.data)
+    const {isLoading,item,isError,error,isFetching}=useMovies({url:props.url,category:props.category});
+   
     //let memoizedItem
     //if(item && Array.isArray()) memoizedItem=React.memo(item.data.results);
 
@@ -40,16 +36,16 @@ const MovieList=(props)=>{
         }
     },[sendRequest,unsetState]);*/
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if(item){
             dispatch('ADD_MOVIES',item.data.results)
         }
-    },[item]);
+    },[item]);*/
 
     return(
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
-            {(isLoading || isError ) && renderResponseItem(isLoading,error)} 
+            {(isFetching || isError ) && renderResponseItem(isLoading,error)} 
             {(!isLoading && !isError) && item?.data?.results && (props.category!='Trailer' ?
             <MovieItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>:
             <MovieTrailerItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>)}

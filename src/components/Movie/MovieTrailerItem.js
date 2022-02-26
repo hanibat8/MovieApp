@@ -2,12 +2,11 @@ import React from 'react';
 import Carousal from '../Carousal/Carousal';
 import CarousalItem from '../Carousal/CarousalItem';
 import VideoModal from '../UI/VideoModal';
-import { useStore } from '../../hooks-store/store';
 import classes from './MovieItem.module.css';
 
 const MovieItem=props=>{
-    const[state,dispatch]=useStore();
-    console.log('Movie Item render',state);
+    
+    console.log('Movie Item render');
 
     let content;
     
