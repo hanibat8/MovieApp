@@ -1,11 +1,9 @@
 import classes from './CarousalItem.module.css';
 
-const CarousalItem=(props)=>{
-
-    let passedClasses=props.category=== 'Trailer' ? 'trailer-carousal-item' : 'carousal-item' ;
+const CarousalItem=(props)=>{ 
 
     return (
-        <div className={classes[passedClasses]}>
+        <div className={classes['carousal-item']}>
             {props.children}
         </div>
     );

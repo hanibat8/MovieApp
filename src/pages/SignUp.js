@@ -1,23 +1,26 @@
-import React,{useContext,useEffect} from 'react';
-import {useNavigate } from 'react-router-dom';
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React,{useContext, useEffect, useState} from 'react';
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
-import classes from './Form.module.css';
-import useHttp from '../hooks/use-http';
-import {renderResponseItem} from '../utils/util';
 import AuthContext from '../store/auth-context';
+import classes from './Form.module.css';
+import {useNavigate } from 'react-router-dom';
+import {renderResponseItem} from '../utils/util';
+import {
+    onAuthStateChanged,
+    createUserWithEmailAndPassword
+  } from "firebase/auth";
+import {auth} from '../firebase-config';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 const SignUp=()=>{
-    const {sendRequest,unsetState,response,isLoading,error}=useHttp();
-
+    //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
+    const [error,setError]=useState(false);
     const authContext=useContext(AuthContext);
     const navigate=useNavigate ();
+    //const isLoggedIn=authContext.isLoggedIn;
 
-    const isLoggedIn=authContext.isLoggedIn;
-
-    useEffect(()=>{
+    /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
        response && authContext.logIn(response.idToken);   
        isLoggedIn && navigate('/');
@@ -27,7 +30,14 @@ const SignUp=()=>{
         return()=>{
             unsetState();
         }
-    },[unsetState])
+    },[unsetState])*/
+
+    useEffect(()=>{
+        auth.onAuthStateChanged((user)=>{
+            if(user)
+                navigate('/');
+        })
+    },[])
 
     return(
         <React.Fragment>
@@ -52,7 +62,7 @@ const SignUp=()=>{
             })}
             onSubmit={(values, { setSubmitting }) => {
                  //unsetState();
-                 sendRequest({
+                 /*sendRequest({
                     url:'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC3tkL__9PuUSI_bZBzyJIAjxda4AHOZog',
                     method:'POST',
                     body: JSON.stringify({
@@ -63,9 +73,21 @@ const SignUp=()=>{
                       headers: {
                         'Content-Type': 'application/json',
                       },
-                    });
+                    });*/
+                    createUserWithEmailAndPassword(
+                        auth,
+                        values.email,
+                        values.password
+                      ).then((userCredential) => {
+                        console.log(userCredential);
+                        setSubmitting(false);
+                        authContext.logIn(userCredential._tokenResponse.idToken);
+                        navigate('/');
+                      }).catch((err)=>{
+                        setError(err.message);
+                      })
                 
-                    !error && !isLoading && setSubmitting(false);
+                    //!error && !isLoading && setSubmitting(false);
                 }}>
                 {formik => {
                     return (
@@ -87,8 +109,8 @@ const SignUp=()=>{
                                     name="confirmPassword"
                                     type="password"       
                                 />
-                                {(isLoading || error) && renderResponseItem(isLoading,error,response)}
-                                {!isLoading &&  <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']}>Sign Up</button>}
+                                {(formik.isSubmitting || error) && renderResponseItem(formik.isSubmitting,error)}
+                                {!formik.isSubmitting && <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']}>Sign Up</button>}
                             </Form>
                         </div>
                     )

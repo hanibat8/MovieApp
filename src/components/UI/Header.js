@@ -2,6 +2,8 @@ import './Header.css';
 import Search from './../Search/Search';
 import {Fragment,useContext} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
+import { signOut } from "firebase/auth";
+import {auth} from '../../firebase-config';
 import AuthContext from '../../store/auth-context';
 import Layout from './Layout';
 
@@ -13,8 +15,11 @@ const Header=()=>{
     const navigate=useNavigate();
 
     const logoutHandler=()=>{
-        authContext.logOut();
-        navigate('/');
+        signOut(auth).then((s)=>{
+            console.log(s);
+            authContext.logOut();
+            navigate('/')
+        }).catch((err)=>alert(err.message));
     }
 
     return(

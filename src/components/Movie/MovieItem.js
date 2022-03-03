@@ -38,7 +38,7 @@ const MovieItem=props=>{
     if(props.list.length>0){
         let imgSrc='w440_and_h660_face/';
         content=props.list.map((movie)=>{
-            return <CarousalItem category={props.category}>
+            return <CarousalItem >
                         <input className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
                         <div className={classes['movie-item--icon__container']}>
                             <img className={classes['movie-item--icon']} src={optionIcon}/>
@@ -77,4 +77,4 @@ const MovieItem=props=>{
     );
 }
 
-export default React.memo(MovieItem);
+export default MovieItem;

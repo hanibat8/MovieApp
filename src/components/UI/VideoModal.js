@@ -1,35 +1,37 @@
-import { useState } from "react";
-import ReactModal from "react-modal/lib/components/Modal";
 import classes from './VideoModal.module.css';
 
-const VideoModal=(props)=> {
-
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+const VideoModal=({ setOpenModal })=> {
+  
   return (
-    <>
-      <div className={classes['movie-item--container']} onClick={() => setModalIsOpen(true)}>
-      <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        style={{
-          overlay: {
-            backgroundColor: 'grey'
-          },
-          content: {
-            color: 'orange'
-          }
-        }}
-        // shouldCloseOnOverlayClick={false}
-      >
-        <h2>Modal title</h2>
-        <div>Modal Body</div>
-        <div>
-          <button onClick={() => setModalIsOpen(false)}>Close</button>
+    <div className={classes['modalBackground']}>
+      <div className={classes['modalContainer']}>
+        <div className={classes['titleCloseBtn']}>
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+          >
+            X
+          </button>
         </div>
-      </ReactModal>
+        <div >
+          <h1>Are You Sure You Want to Continue?</h1>
+        </div>
+        <div >
+          <button
+            onClick={() => {
+              setOpenModal(false);
+            }}
+            id="cancelBtn"
+          >
+            Cancel
+          </button>
+          <button>Continue</button>
+        </div>
       </div>
-    </>
-  )
+    </div>
+  );
+
 
    /* const [isOpen,setIsOpen]=useState(false);
     const openModal=()=>setIsOpen(true);

@@ -2,8 +2,8 @@
     text-align: center;
     color: rgb(238, 35, 35);
     font-weight: 900;
-    height: 18rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }

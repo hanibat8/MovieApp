@@ -1,5 +1,4 @@
 import { initStore } from "./store"
-import uniqBy from 'lodash/uniqBy';
 
 const idExists=(arr,id)=>arr.some(item=>item.movieId===id);
 const filteredArr=(arr,id)=>arr.filter(item=>item.movieId!=id);
@@ -29,7 +28,7 @@ const configureStore=()=>{
             return {...curState,wishlist:newWishlistArr}
         },
 
-        ADD_MOVIES:(curState,movies)=>{
+        /*ADD_MOVIES:(curState,movies)=>{
             let newMovieArr=[...movies];
 
             if(curState.movie){
@@ -42,7 +41,7 @@ const configureStore=()=>{
             }
            
             return {...curState,movie:newMovieArr};
-        }
+        }*/
     }
 
     initStore(actions);

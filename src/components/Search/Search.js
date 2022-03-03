@@ -9,8 +9,7 @@ const Search=()=>{
 
     const [inputSearchTerm,setInputSearchTerm]=useState('');
     const [searchButtonClicked,setSearchButtonClicked]=useState(false);
-    const [filteredMovies,setFilteredMovies]=useState([]);
-    
+
     const searchQueryHandler=(event)=>{
         setInputSearchTerm(event.target.value);
             
@@ -28,7 +27,6 @@ const Search=()=>{
 
     const searchButtonClickHandler=()=>{
        searchButtonClicked ? setSearchButtonClicked(false): setSearchButtonClicked(true);
-       if(!searchButtonClicked)setFilteredMovies([]);
     }
 
     /*useEffect(()=>{
@@ -41,7 +39,6 @@ const Search=()=>{
             {searchButtonClicked && <form className={classes.form}>
                 <input className={classes.search} placeholder='Search' onChange={debounceChangeHandler}/>
                 {inputSearchTerm.length>0 && <SearchAPI query={inputSearchTerm}/>}
-                {/*filteredMovies?.length>0 && displayFilteredMovies(filteredMovies)*/}
             </form>}
         </>
     )
