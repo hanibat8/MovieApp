@@ -1,4 +1,4 @@
-import {useState,useCallback} from 'react';
+import React,{useState,useCallback} from 'react';
 import SearchAPI from './SearchAPI';
 import classes from './Search.module.css';
 import debounce from 'lodash.debounce';
@@ -10,7 +10,7 @@ const Search=()=>{
     const [inputSearchTerm,setInputSearchTerm]=useState('');
     const [searchButtonClicked,setSearchButtonClicked]=useState(false);
 
-    const searchQueryHandler=(event)=>{
+    const searchQueryHandler=(event:{target:{value:string}})=>{
         setInputSearchTerm(event.target.value);
             
     };

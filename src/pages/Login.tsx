@@ -75,7 +75,7 @@ const Login=()=>{
                    });*/
                     signInWithEmailAndPassword(auth,values.email,values.password).then((userCredential)=>{
                         setSubmitting(false);
-                        authContext.logIn(userCredential._tokenResponse.idToken);
+                        //authContext.logIn(userCredential._tokenResponse.idToken);
                         navigate('/');
                    }).catch((err)=>{
                         setError(err.message);
@@ -101,7 +101,7 @@ const Login=()=>{
                             type="password"       
                         />
                         {(formik.isSubmitting || error) && renderResponseItem(formik.isSubmitting,error)}
-                        {!formik.isSubmitting && <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']} type="submit">Submit</button>}
+                        {!formik.isSubmitting && <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']} >Submit</button>}
                         </Form>
                         </div>
                     )}}

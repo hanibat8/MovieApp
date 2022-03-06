@@ -6,14 +6,13 @@ import classes from './Form.module.css';
 import {useNavigate } from 'react-router-dom';
 import {renderResponseItem} from '../utils/util';
 import {
-    onAuthStateChanged,
     createUserWithEmailAndPassword
   } from "firebase/auth";
 import {auth} from '../firebase-config';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-const SignUp=()=>{
+const SignUp:React.FC=()=>{
     //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
     const [error,setError]=useState(false);
     const authContext=useContext(AuthContext);
@@ -78,7 +77,7 @@ const SignUp=()=>{
                         auth,
                         values.email,
                         values.password
-                      ).then((userCredential) => {
+                      ).then((userCredential:any) => {
                         console.log(userCredential);
                         setSubmitting(false);
                         authContext.logIn(userCredential._tokenResponse.idToken);

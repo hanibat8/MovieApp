@@ -11,7 +11,7 @@ import SingleMovie from './pages/SingleMovie';
 
 const queryClient=new QueryClient();
 
-function App() {
+const App:React.FC=()=>{
   
   return (
     <QueryClientProvider client={queryClient}>

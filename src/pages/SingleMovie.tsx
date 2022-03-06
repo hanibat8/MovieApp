@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from "../components/UI/Header";
 import Footer from "../components/UI/Footer";
 import Layout from "../components/UI/Layout";
@@ -6,7 +7,6 @@ import CarousalItem from "../components/Carousal/CarousalItem";
 import CircularScore from "../components/UI/CircularScore";
 import classes from './SingleMovie.modules.css';
 import { useParams } from "react-router-dom";
-import { useStore } from '../hooks-store/store';
 import { useNavigate } from "react-router-dom";
 import {renderResponseItem} from '../utils/util';
 import { useQuery, useQueryClient } from 'react-query';
@@ -19,9 +19,13 @@ import heartIconPressed from '../assets/heart.png';
 import boolMarkIconPressed from '../assets/bookmark2.png';
 import playIcon from '../assets/controller-play.png';
 
-const mapGenres=(genreArr)=>genreArr?.map((genre)=><span key={genre.id} className="single-movie--genre">{`${genre.name}`}</span>);
+interface Props{
+    category?:string
+}
 
-const SingleMovie=(props)=>{
+const mapGenres=(genreArr:[])=>genreArr?.map((genre:{id:number,name:string})=><span key={genre.id} className="single-movie--genre">{`${genre.name}`}</span>);
+
+const SingleMovie:React.FC<Props>=(props)=>{
     console.log('SingleMovie render');
     const params=useParams();
 
@@ -36,15 +40,19 @@ const SingleMovie=(props)=>{
     
     //const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
     
-    const queryClient=useQueryClient();
-    let queryClientPopular=queryClient.getQueryData('Popular')?.data?.results;
+    const queryClient:any=useQueryClient();
+    let queryClientPopular= queryClient.getQueryData('Popular')?.data?.results;
     let queryClientUpcoming=queryClient.getQueryData('Upcoming')?.data?.results;
     let queryClientTopRated=queryClient.getQueryData('Top Rated')?.data?.results;
 
     console.log(queryClientPopular);
 
-    const getMovieIdForPlaceholderData=(queryClientMovies)=>{
-       return queryClientMovies?.find(movie=>movie.id===+params.movieId);
+    const getMovieIdForPlaceholderData=(queryClientMovies:[]|null)=>{
+            return queryClientMovies?.find((movie:{id:number})=>{
+                if(params.movieId!=null)
+                    return movie.id===+params.movieId}
+                );
+        
     }
 
     const getIPlaceholderData=()=>{
@@ -59,29 +67,32 @@ const SingleMovie=(props)=>{
         return dataQuery;
     }
     
-    const {isLoading,data:{data:movie}={},isError,error}=useQuery(
-        ['movie-id',params.movieId.toString()],
+    const {isLoading,data:movie,isError,error}=useQuery(
+        ['movie-id',params.movieId && params.movieId.toString()],
         ()=>axios.get(`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`),
-        {staleTime:Infinity,
-        placeholderData: ()=>{let a=queryClient.getQueryData('Popular')?.data?.results.find(movie=>movie.id===+params.movieId)
-    console.log(a)
-return a}});
+        {   staleTime:Infinity,
+            placeholderData: ()=>{let a=queryClient.getQueryData('Popular')?.data?.results.find((movie:{id:number})=> {
+                if(params.movieId!=null) 
+                    return movie.id===+params.movieId})
+                console.log(a)
+                return a}
+        });
 
         //console.log(data?.data);
 
-    const[state,dispatch]=useStore();
+    //const[state,dispatch]=useStore();
 
-    const toggleFavHandler=(movie)=>{
-       dispatch('TOGGLE_FAV',{movieId:movie.id,category:props.category});
+    const toggleFavHandler=(movie:{id:number})=>{
+       //dispatch('TOGGLE_FAV',{movieId:movie.id,category:props.category});
     }
 
-    const toggleWishlistHandler=(movie)=>{
-        dispatch('TOGGLE_WISHLIST',{movieId:movie.id,category:props.category});
+    const toggleWishlistHandler=(movie:{id:number})=>{
+        //dispatch('TOGGLE_WISHLIST',{movieId:movie.id,category:props.category});
     }
 
-    const isMovieFavorited=(id,favArr=state.favorite)=>favArr.some(fav=>fav.movieId===id);
+    //const isMovieFavorited=(id,favArr=state.favorite)=>favArr.some(fav=>fav.movieId===id);
 
-    const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
+    //const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
    
 //    console.log(state);
 
@@ -95,7 +106,7 @@ return a}});
     },[sendRequest,unsetState]);*/
 
     
-    const cast=movie?.genres?.map((genre)=>{
+    const cast=movie?.genres?.map((genre:{id:number,name:string})=>{
             return <CarousalItem>
                 <div key={genre.id}>
                     <img src="https://www.themoviedb.org/t/p/w138_and_h175_face/hhKZGnu66EXC0nDYzjErMs62ETb.jpg" className='carousal-item--img'/>
@@ -124,12 +135,12 @@ return a}});
                                         <div className="single-movie--buttons">
                                             <CircularScore score={movie?.vote_average}/>
                                             
-                                            <button className="single-movie--button" onClick={isLoggedIn ? toggleFavHandler.bind(this,movie):navigateToSignUpPage}>
-                                                {state.favorite && isMovieFavorited(movie?.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>}
+                                            <button className="single-movie--button" onClick={isLoggedIn ? /*toggleFavHandler.bind(this,movie)*/()=>{}:navigateToSignUpPage}>
+                                                {/*state.favorite && isMovieFavorited(movie?.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>*/}
                                             </button>
                                             
-                                            <button className="single-movie--button" onClick={isLoggedIn ? toggleWishlistHandler.bind(this,movie):navigateToLoginInForm}>
-                                                {state.wishlist && isMovieWishlisted(movie?.id) ? <img src={boolMarkIconPressed}/> : <img src={bookMarkIcon}/>}
+                                            <button className="single-movie--button" onClick={isLoggedIn ? /*toggleWishlistHandler.bind(this,movie)*/()=>{}:navigateToLoginInForm}>
+                                                {/*state.wishlist && isMovieWishlisted(movie?.id) ? <img src={boolMarkIconPressed}/> : <img src={bookMarkIcon}/>*/}
                                             </button>
                                             
                                             <button className="single-movie--play-button">

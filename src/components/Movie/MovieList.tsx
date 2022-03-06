@@ -5,13 +5,19 @@ import {renderResponseItem} from '../../utils/util';
 import {useMovies} from  '../../hooks/use-movies';
 import MovieTrailerItem from './MovieTrailerItem';
 
-const MovieList=(props)=>{
+interface Props {
+    url?:string,
+    category:string
+}
+
+
+const MovieList:React.FC<Props>=(props)=>{
 
     //const [movieState,dispatch]=useStore(false);
     console.log('movie list rendering')
 
     //const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
-    const {isLoading,item,isError,error,isFetching}=useMovies({url:props.url,category:props.category});
+    const {isLoading,item,isError,error,isFetching}=useMovies({category:props.category});
    
   /*  useEffect(()=>{
         //console.log('Request sent');
@@ -33,7 +39,7 @@ const MovieList=(props)=>{
        <React.Fragment>
             <h4 className={classes['movie-list__title']}>{props.category}</h4>
             <div className={classes[definedClass]}>
-                {(isFetching || isError ) && renderResponseItem(isLoading,error)} 
+                {(isFetching || isError ) && renderResponseItem(isFetching,error)} 
                 {(!isLoading && !isError) && item?.data?.results && (props.category!='Trailer' ?
                 <MovieItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>:
                 <MovieTrailerItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>)}

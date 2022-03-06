@@ -1,8 +1,15 @@
+import React,{ useState} from 'react';
 import VideoModal from '../UI/VideoModal';
-import{useState} from 'react';
 import classes from './CarousalTrailerItem.module.css';
 
-const CarousalTrailerItem=(props)=>{
+interface Props{
+    movie:{
+        original_title:string,
+        poster_path:string
+    }
+}
+
+const CarousalTrailerItem:React.FC<Props>=(props)=>{
 
     const [modalOpen, setModalOpen] = useState(true);
 

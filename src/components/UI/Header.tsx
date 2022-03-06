@@ -1,5 +1,6 @@
+import React from 'react';
 import './Header.css';
-import Search from './../Search/Search';
+import Search from '../Search/Search';
 import {Fragment,useContext} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { signOut } from "firebase/auth";
@@ -23,7 +24,7 @@ const Header=()=>{
     }
 
     return(
-        <Fragment>
+        <>
             <div className='header__container'>
                 <Layout>
                 <div className={`header`}>
@@ -81,7 +82,7 @@ const Header=()=>{
                 </div>
                 </Layout>
             </div>
-        </Fragment>
+        </>
     )
 }
 

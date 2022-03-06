@@ -5,9 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 import {AuthContextProvider} from './store/auth-context';
-import configureStore from './hooks-store/movie-store';
-
-configureStore();
 
 ReactDOM.render(
   <React.StrictMode>

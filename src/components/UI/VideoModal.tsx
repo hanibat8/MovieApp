@@ -1,6 +1,12 @@
+import React from 'react';
 import classes from './VideoModal.module.css';
 
-const VideoModal=({ setOpenModal })=> {
+interface Props{
+  setOpenModal:(isOpen:boolean)=>void,
+  movie:{}
+}
+
+const VideoModal:React.FC<Props>=({ setOpenModal })=> {
   
   return (
     <div className={classes['modalBackground']}>

@@ -1,7 +1,8 @@
+import React from 'react';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import classes from './util.module.css';
 
-export const renderResponseItem=(isLoading,error,item=null)=>{
+export const renderResponseItem=(isLoading:boolean,error:any,item:[] | null=null):[]|JSX.Element=>{
 
     if(isLoading){
         return <div className={classes.centered}><LoadingSpinner/></div>;
@@ -14,5 +15,7 @@ export const renderResponseItem=(isLoading,error,item=null)=>{
     else if(item){
         return item;
     }
+
+    return [];
 
 }
