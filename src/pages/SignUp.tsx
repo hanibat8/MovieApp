@@ -1,7 +1,6 @@
-import React,{useContext, useEffect, useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
-import AuthContext from '../store/auth-context';
 import classes from './Form.module.css';
 import {useNavigate } from 'react-router-dom';
 import {renderResponseItem} from '../utils/util';
@@ -15,9 +14,16 @@ import * as Yup from "yup";
 const SignUp:React.FC=()=>{
     //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
     const [error,setError]=useState(false);
-    const authContext=useContext(AuthContext);
     const navigate=useNavigate ();
     //const isLoggedIn=authContext.isLoggedIn;
+    const user = auth.currentUser;
+    console.log(user);
+
+    useEffect(()=>{
+        if(user){
+            navigate('/');
+        }
+    },[])
 
     /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
@@ -30,14 +36,7 @@ const SignUp:React.FC=()=>{
             unsetState();
         }
     },[unsetState])*/
-
-    useEffect(()=>{
-        auth.onAuthStateChanged((user)=>{
-            if(user)
-                navigate('/');
-        })
-    },[])
-
+ 
     return(
         <React.Fragment>
             <Header/>
@@ -49,10 +48,10 @@ const SignUp:React.FC=()=>{
             }}
             validationSchema={Yup.object({   
             password: Yup.string()
-                .min(5, "Must be 5 characters or more")
+                .min(6, "Must be 6 characters or more")
                 .required("Required"),
             confirmPassword: Yup.string()
-                .min(5, "Must be 5 characters or more")
+                .min(6, "Must be 6 characters or more")
                 .required("Required")
                 .oneOf([Yup.ref('password'), null], 'Passwords must match'),
             email: Yup.string()
@@ -80,7 +79,7 @@ const SignUp:React.FC=()=>{
                       ).then((userCredential:any) => {
                         console.log(userCredential);
                         setSubmitting(false);
-                        authContext.logIn(userCredential._tokenResponse.idToken);
+                        //authContext.logIn(userCredential._tokenResponse.idToken);
                         navigate('/');
                       }).catch((err)=>{
                         setError(err.message);

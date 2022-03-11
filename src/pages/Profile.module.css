@@ -1,0 +1,24 @@
+.profile{
+    height: 15rem;
+   background-repeat: no-repeat;
+   background-size: cover;
+   color: #fff;
+   background-color: rgba(0, 0, 0, 0.333);
+}
+
+.profile__details{
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+}
+
+.profile__details--circle{
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+    background-color: rgb(67, 62, 123);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}

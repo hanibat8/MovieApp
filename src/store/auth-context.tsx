@@ -1,40 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {auth} from '../firebase-config';
+import {renderResponseItem} from '../utils/util';
 
-const AuthContext=React.createContext({
-    token:'',
-    isLoggedIn:false,
-    logIn:(token:string)=>{},
-    logOut:()=>{},
-});
+export const AuthContext=React.createContext({});
 
 export const AuthContextProvider:React.FC=(props)=>{
-    const initialToken=localStorage.getItem('token')??'';
-    const [token,setToken]=useState(initialToken);
+    //const initialToken=localStorage.getItem('token')??'';
+    //const [token,setToken]=useState(initialToken);
 
-    const userIsLoggedIn=!!token;
+    const [isLoading,setIsLoading]=useState(true);//to make sure children are only rendered when user is set
+
+    //const userIsLoggedIn=!!user;
     //console.log(userIsLoggedIn);
 
-    const loginHandler=(token:string)=>{
+    /*const loginHandler=(user:{})=>{
        // console.log(token);
         setToken(token);
         localStorage.setItem('token',token);
-    }
+    }*/
 
-    const logoutHandler=()=>{
+    /*const logoutHandler=()=>{
         setToken('');
         localStorage.removeItem('token');
-    }
+    }*/
+    useEffect(()=>{
+        const unsubscribe=auth.onAuthStateChanged((user)=>{
+            setIsLoading(false);
+        });
+        return unsubscribe
+    },
+    [])
 
-    const contextValue={
-        token:token,
-        isLoggedIn:userIsLoggedIn,
-        logIn:loginHandler,
-        logOut:logoutHandler
-    };
 
     return(
-        <AuthContext.Provider value={contextValue}>
-            {props.children}
+        <AuthContext.Provider value={{}}>
+            {isLoading && renderResponseItem(isLoading,false)}
+            {!isLoading && props.children}
         </AuthContext.Provider>
     )
 }
@@ -45,6 +46,4 @@ export const useAuth=()=>{
       throw new Error('useAuth must be used within a AuthContextProvider')
     }
     return context
-  }
-
-export default AuthContext;
+}

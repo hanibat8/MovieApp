@@ -1,27 +1,29 @@
 import React from 'react';
 import './Header.css';
 import Search from '../Search/Search';
-import {Fragment,useContext} from 'react';
+import {Fragment} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import {auth} from '../../firebase-config';
-import AuthContext from '../../store/auth-context';
 import Layout from './Layout';
 
 const Header=()=>{
 
-    const authContext=useContext(AuthContext);
-    const isLoggedIn=authContext.isLoggedIn;
+    //const authContext=useContext(AuthContext);
+    //const isLoggedIn=authContext.isLoggedIn;
 
     const navigate=useNavigate();
+    const user = auth.currentUser;
+   // console.log(user);
 
     const logoutHandler=()=>{
         signOut(auth).then((s)=>{
             console.log(s);
-            authContext.logOut();
+            //authContext.logOut();
             navigate('/')
         }).catch((err)=>alert(err.message));
     }
+    
 
     return(
         <>
@@ -58,7 +60,7 @@ const Header=()=>{
                             </Link>
                         </div>
                         <div className={`navbar__login`}>
-                            {!isLoggedIn &&
+                            {!user&&
                                 <Fragment> 
                                     <Link to='/signUp' className={`navbar__link`}>
                                         Join TMDB
@@ -68,7 +70,7 @@ const Header=()=>{
                                     </Link>   
                                 </Fragment>
                                 }
-                            {isLoggedIn && 
+                            {user && 
                                 <Fragment> 
                                     <Link to='/profile' className={`navbar__link`}>
                                          Profile

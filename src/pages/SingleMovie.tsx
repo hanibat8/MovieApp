@@ -10,7 +10,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {renderResponseItem} from '../utils/util';
 import { useQuery, useQueryClient } from 'react-query';
-import { useAuth } from "../store/auth-context";
+import {auth} from '../firebase-config';
+import {db} from '../firebase-config';
+import {ref,set} from 'firebase/database';
 import axios from 'axios';
 
 import heartIcon from '../assets/heart-outlined.png';
@@ -29,10 +31,9 @@ const SingleMovie:React.FC<Props>=(props)=>{
     console.log('SingleMovie render');
     const params=useParams();
 
-    const authContext=useAuth();
-    const isLoggedIn=authContext.isLoggedIn;
-
     let navigate = useNavigate();
+
+    const user = auth.currentUser;
 
     const navigateToSignUpPage=()=> navigate('/signUp'); 
 
@@ -109,7 +110,7 @@ const SingleMovie:React.FC<Props>=(props)=>{
     const cast=movie?.genres?.map((genre:{id:number,name:string})=>{
             return <CarousalItem>
                 <div key={genre.id}>
-                    <img src="https://www.themoviedb.org/t/p/w138_and_h175_face/hhKZGnu66EXC0nDYzjErMs62ETb.jpg" className='carousal-item--img'/>
+                    <img decoding='async' src="https://www.themoviedb.org/t/p/w138_and_h175_face/hhKZGnu66EXC0nDYzjErMs62ETb.jpg" className='carousal-item--img'/>
                     {genre.name}
                 </div>
             </CarousalItem>
@@ -118,33 +119,33 @@ const SingleMovie:React.FC<Props>=(props)=>{
     return(
         <>
             <Header/>
-                {(isLoading || isError ) && <div className='single-movie__container'>{renderResponseItem(isLoading,error)}</div>} 
-                {movie && <> <div className='single-movie__container' style={{backgroundImage:`linear-gradient(rgba(27, 27, 27, 0.8),rgba(10, 10, 10, 0.8)), url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${movie?.backdrop_path})`}}>
+                {(isLoading || isError ) && <div className={'single-movie__container'}>{renderResponseItem(isLoading,error)}</div>} 
+                {movie && <> <div className={classes['single-movie__container']} style={{backgroundImage:`linear-gradient(rgba(27, 27, 27, 0.8),rgba(10, 10, 10, 0.8)), url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/${movie?.backdrop_path})`}}>
                             <Layout>
                                 <div className={`single-movie--detail__container`}>
                                     <div className={`single-movie--img__container`}>
-                                        <img src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie?.poster_path} className={'single-movie--img'}/>
+                                        <img decoding='async' src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movie?.poster_path} className={'single-movie--img'}/>
                                     </div>
                                    
                                     <div className={'single-movie--info__container'}>
-                                        <h2 className="single-movie--heading">{movie?.original_title}<span className="single-movie--heading--year">{`(${movie?.release_date.split('-')[0]})`}</span></h2>
-                                        <span className="single-movie--date">{movie?.release_date.split('-').join('/')}</span>
+                                        <h2 className="single-movie--heading">{movie?.original_title}<span className="single-movie--heading--year">{`(${movie?.release_date?.split('-')[0]})`}</span></h2>
+                                        <span className="single-movie--date">{movie?.release_date?.split('-').join('/')}</span>
                                         {mapGenres(movie?.genres)}
                                         <span className="single-movie--runtime">{`${movie?.runtime}m`}</span>
                                         
                                         <div className="single-movie--buttons">
                                             <CircularScore score={movie?.vote_average}/>
                                             
-                                            <button className="single-movie--button" onClick={isLoggedIn ? /*toggleFavHandler.bind(this,movie)*/()=>{}:navigateToSignUpPage}>
+                                            <button className="single-movie--button" onClick={user ? /*toggleFavHandler.bind(this,movie)*/()=>{}:navigateToSignUpPage}>
                                                 {/*state.favorite && isMovieFavorited(movie?.id) ? <img src={heartIconPressed}/> : <img src={heartIcon}/>*/}
                                             </button>
                                             
-                                            <button className="single-movie--button" onClick={isLoggedIn ? /*toggleWishlistHandler.bind(this,movie)*/()=>{}:navigateToLoginInForm}>
+                                            <button className="single-movie--button" onClick={user ? /*toggleWishlistHandler.bind(this,movie)*/()=>{}:navigateToLoginInForm}>
                                                 {/*state.wishlist && isMovieWishlisted(movie?.id) ? <img src={boolMarkIconPressed}/> : <img src={bookMarkIcon}/>*/}
                                             </button>
                                             
                                             <button className="single-movie--play-button">
-                                                <img className="single-movie--play-button--img" src={playIcon}/>
+                                                <img decoding='async' className="single-movie--play-button--img" src={playIcon}/>
                                                 <span>Play Trailer</span>
                                             </button>
                                         </div>

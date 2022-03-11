@@ -1,25 +1,25 @@
-import React,{useContext,useEffect, useState} from 'react';
-import {useNavigate } from 'react-router-dom';
+import React,{useState,useEffect} from 'react';
+import {Navigate,useNavigate } from 'react-router-dom';
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
 import classes from './Form.module.css';
 import {
-    onAuthStateChanged,
     signInWithEmailAndPassword
   } from "firebase/auth";
 import {auth} from '../firebase-config';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import {renderResponseItem} from '../utils/util';
-import AuthContext from '../store/auth-context';
 
 const Login=()=>{
     //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
     console.log('login')
     const [error,setError]=useState(false);
-    const authContext=useContext(AuthContext);
     const navigate=useNavigate ();
-    //const isLoggedIn=authContext.isLoggedIn;
+    
+    const user = auth.currentUser;
+    console.log(user);
+
 
     /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
@@ -32,16 +32,6 @@ const Login=()=>{
             unsetState();
         }
     },[unsetState])*/
-
-    useEffect(()=>{
-        onAuthStateChanged(auth,(user)=>{
-            if(user){
-                console.log(user);
-                navigate('/');
-            }
-        })
-    },[])
-
 
     return(
         <React.Fragment>
@@ -56,7 +46,7 @@ const Login=()=>{
                 .email("Invalid email addresss`")
                 .required("Required"),
             password: Yup.string()
-                .min(5, "Must be 5 characters or more")
+                .min(6, "Must be 5 characters or more")
                 .required("Required"),
             })}
             onSubmit={async(values, { setSubmitting }) => {
@@ -74,6 +64,7 @@ const Login=()=>{
                        },
                    });*/
                     signInWithEmailAndPassword(auth,values.email,values.password).then((userCredential)=>{
+                        console.log(userCredential);
                         setSubmitting(false);
                         //authContext.logIn(userCredential._tokenResponse.idToken);
                         navigate('/');
