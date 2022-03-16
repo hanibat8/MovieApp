@@ -22,3 +22,60 @@
     justify-content: center;
     font-size: 3rem;
 }
+
+.profile__details--email{
+    margin-left: 1.5rem;
+    font-size: 2rem;
+}
+
+.categories{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.categories__name{
+    margin-right: 3rem;
+    font-size: 1.1rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.categories__name:hover{
+
+
+}
+
+.categories__name--active{
+    font-weight: 600;
+    text-underline-position: below;
+}
+
+.category__movie{
+    margin-top: 1rem;
+    height: 10rem;
+    border: 1px solid rgba(0, 0, 0, 0.136);
+    border-radius: 2rem;
+    display: flex;
+}
+
+.category__movie__img__container{
+    height: 10rem;
+    width: 8rem;
+}
+
+
+.category__movie__img{
+    box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit:cover;
+    border-radius: 1rem;
+}
+
+.category__movie__details{
+    padding: 1rem;
+    flex-basis:85% ;
+}

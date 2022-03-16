@@ -15,27 +15,12 @@ const SignUp:React.FC=()=>{
     //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
     const [error,setError]=useState(false);
     const navigate=useNavigate ();
-    //const isLoggedIn=authContext.isLoggedIn;
-    const user = auth.currentUser;
-    console.log(user);
-
-    useEffect(()=>{
-        if(user){
-            navigate('/');
-        }
-    },[])
 
     /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
        response && authContext.logIn(response.idToken);   
        isLoggedIn && navigate('/');
-    },[response,authContext,isLoggedIn])
-
-    useEffect(()=>{
-        return()=>{
-            unsetState();
-        }
-    },[unsetState])*/
+    },[response,authContext,isLoggedIn])*/
  
     return(
         <React.Fragment>

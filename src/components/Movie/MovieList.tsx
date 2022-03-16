@@ -13,26 +13,10 @@ interface Props {
 
 const MovieList:React.FC<Props>=(props)=>{
 
-    //const [movieState,dispatch]=useStore(false);
     console.log('movie list rendering')
-
-    //const {sendRequest,response:item,error,isLoading,unsetState}=useHttp();
+    
     const {isLoading,item,isError,error,isFetching}=useMovies({category:props.category});
    
-  /*  useEffect(()=>{
-        //console.log('Request sent');
-        sendRequest({url:props.url});
-        
-        return()=>{
-            unsetState();
-        }
-    },[sendRequest,unsetState]);*/
-
-    /*useEffect(()=>{
-        if(item){
-            dispatch('ADD_MOVIES',item.data.results)
-        }
-    },[item]);*/
     let definedClass=props.category==='Trailer'?'movie-trailer-list':'movie-list';
 
     return(

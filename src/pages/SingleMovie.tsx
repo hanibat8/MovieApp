@@ -39,8 +39,6 @@ const SingleMovie:React.FC<Props>=(props)=>{
 
     const navigateToLoginInForm=()=> navigate('/login');
     
-    //const {sendRequest,response:movie,error,isLoading,unsetState}=useHttp();
-    
     const queryClient:any=useQueryClient();
     let queryClientPopular= queryClient.getQueryData('Popular')?.data?.results;
     let queryClientUpcoming=queryClient.getQueryData('Upcoming')?.data?.results;
@@ -79,10 +77,7 @@ const SingleMovie:React.FC<Props>=(props)=>{
                 return a}
         });
 
-        //console.log(data?.data);
-
-    //const[state,dispatch]=useStore();
-
+    
     const toggleFavHandler=(movie:{id:number})=>{
        //dispatch('TOGGLE_FAV',{movieId:movie.id,category:props.category});
     }
@@ -90,21 +85,6 @@ const SingleMovie:React.FC<Props>=(props)=>{
     const toggleWishlistHandler=(movie:{id:number})=>{
         //dispatch('TOGGLE_WISHLIST',{movieId:movie.id,category:props.category});
     }
-
-    //const isMovieFavorited=(id,favArr=state.favorite)=>favArr.some(fav=>fav.movieId===id);
-
-    //const isMovieWishlisted=(id,wishlistArr=state.wishlist)=>wishlistArr.some(wish=>wish.movieId===id);
-   
-//    console.log(state);
-
-   /* useEffect(()=>{
-        //console.log('Request sent');
-        sendRequest({url:`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`});
-        
-        return()=>{
-            unsetState();
-        }
-    },[sendRequest,unsetState]);*/
 
     
     const cast=movie?.genres?.map((genre:{id:number,name:string})=>{

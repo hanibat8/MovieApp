@@ -5,25 +5,20 @@ import {Fragment} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import {auth} from '../../firebase-config';
+import {useAuth} from '../../store/auth-context';
 import Layout from './Layout';
 
 const Header=()=>{
 
-    //const authContext=useContext(AuthContext);
-    //const isLoggedIn=authContext.isLoggedIn;
-
+    const authContext=useAuth();
     const navigate=useNavigate();
-    const user = auth.currentUser;
-   // console.log(user);
 
     const logoutHandler=()=>{
+        console.log(authContext);
         signOut(auth).then((s)=>{
-            console.log(s);
-            //authContext.logOut();
             navigate('/')
         }).catch((err)=>alert(err.message));
     }
-    
 
     return(
         <>
@@ -60,7 +55,7 @@ const Header=()=>{
                             </Link>
                         </div>
                         <div className={`navbar__login`}>
-                            {!user&&
+                            {!authContext.isLoggedIn&&
                                 <Fragment> 
                                     <Link to='/signUp' className={`navbar__link`}>
                                         Join TMDB
@@ -70,7 +65,7 @@ const Header=()=>{
                                     </Link>   
                                 </Fragment>
                                 }
-                            {user && 
+                            {authContext.isLoggedIn && 
                                 <Fragment> 
                                     <Link to='/profile' className={`navbar__link`}>
                                          Profile
