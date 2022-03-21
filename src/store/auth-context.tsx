@@ -33,7 +33,9 @@ export const AuthContextProvider:React.FC=(props)=>{
             user ? setIsloggedIn(true):setIsloggedIn(false);
             setIsLoading(false);
         });
-        return unsubscribe
+        return () => {
+            unsubscribe();
+        }
     },
     [])
 

@@ -79,3 +79,11 @@
     padding: 1rem;
     flex-basis:85% ;
 }
+
+.cross-btn{
+    margin: .5rem;
+    background-color: transparent;
+    border: none;
+    align-self: start;   
+    justify-self: flex-start;
+}

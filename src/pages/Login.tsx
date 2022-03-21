@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from 'react';
-import {useNavigate } from 'react-router-dom';
+import React,{useState} from 'react';
+import {Route,Routes,useNavigate } from 'react-router-dom';
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
 import classes from './Form.module.css';
@@ -10,13 +10,13 @@ import {auth} from '../firebase-config';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import {renderResponseItem} from '../utils/util';
-import {useAuth} from '../store/auth-context';
 
 const Login=()=>{
     //const {sendRequest,unsetState,response,isLoading,error}=useHttp();
     console.log('login')
     const [error,setError]=useState(false);
-    const navigate=useNavigate ();
+    const navigate=useNavigate();
+    
 
     /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
@@ -27,6 +27,7 @@ const Login=()=>{
 
     return(
         <React.Fragment>
+            
             <Header/>
             <Formik
             initialValues={{
@@ -78,11 +79,13 @@ const Login=()=>{
                             label="Email Address"
                             name="email"
                             type="email"
+                            id='email'
                         />
                         <Input
                             label="Password"
                             name="password"
-                            type="password"       
+                            type="password"
+                            id='password'       
                         />
                         {(formik.isSubmitting || error) && renderResponseItem(formik.isSubmitting,error)}
                         {!formik.isSubmitting && {} && <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']} >Submit</button>}

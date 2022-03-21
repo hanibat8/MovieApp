@@ -27,7 +27,7 @@ const Header=()=>{
                 <div className={`header`}>
                     <div className={`navbar`}>
                         <div className={`navbar__links`}>
-                            <Link to='/movies' className={`navbar__link`}>
+                            <div className={`navbar__link`}>
                                 Movies
                                 <div className={`navbar__link__dropdown`}>
                                     <ul>
@@ -39,8 +39,8 @@ const Header=()=>{
                                             <Link to='/movies/upcoming' className={`navbar__list__category`}>Upcoming</Link></li>
                                     </ul>
                                 </div>
-                            </Link>
-                            <Link to='/tvShows' className={`navbar__link`}>
+                            </div>
+                            <div className={`navbar__link`}>
                                 TVShows
                                 <div className={`navbar__link__dropdown`}>
                                     <ul>
@@ -52,7 +52,7 @@ const Header=()=>{
                                             <Link to='/tvShows/upcoming' className={`navbar__list__category`}>Upcoming</Link></li>
                                     </ul>
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                         <div className={`navbar__login`}>
                             {!authContext.isLoggedIn&&

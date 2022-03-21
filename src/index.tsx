@@ -5,12 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 import {AuthContextProvider} from './store/auth-context';
+import {ErrorBoundary} from 'react-error-boundary'
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <BrowserRouter>
-        <App />
+    <BrowserRouter>
+      <ErrorBoundary
+      fallbackRender =  {({error, resetErrorBoundary}) => (
+          <div>
+          <h1>An error occurred: {error.message}</h1>
+          <button onClick={resetErrorBoundary}>Try again</button>
+        </div>
+      )}
+    >
+       <App />
+    </ErrorBoundary>
       </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>,

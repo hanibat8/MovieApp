@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import {auth} from '../../firebase-config';
 import {getWishlistFavMovies} from '../../utils/util';
 import optionIcon from '../../assets/dots-three-horizontal.png';
+import heartOutlineIcon  from '../../assets/heart-outlined.png';
+import bookmarkOutline from '../../assets/bookmark_outline.png';
 import classes from './MovieItem.module.css';
 
 interface Props {
@@ -37,17 +39,17 @@ const MovieItem:React.FC<Props>=props=>{
         let imgSrc='w440_and_h660_face/';
         content=props.list.map((movie:movie)=>{
             return <CarousalItem >
-                        <input className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
+                        <input data-testid={movie.id} className={classes['movie-item--checkbox']} type="checkbox" id="btnControl"/>                   
                         <div className={classes['movie-item--icon__container']}>
                             <img decoding='async' className={classes['movie-item--icon']} src={optionIcon}/>
                         </div>
                         <div className={classes[`movie-item__dropdown`]}>
                             <ul>
                                 <li className={classes[`movie-item__list`]}>
-                                    <button className={classes[`movie-item__btn`]} onClick={user ? getWishlistFavMovies.bind(window,user?.uid,{id:movie.id,original_title:movie.original_title,overview:movie.overview,poster_path:movie.poster_path},'wishlist'):navigateToSignUpPage}>{user? 'Add to wishlist':'Login to wishlist'}</button>
+                                    <button className={classes[`movie-item__btn`]} onClick={user ? getWishlistFavMovies.bind(window,user?.uid,{id:movie.id,original_title:movie.original_title,overview:movie.overview,poster_path:movie.poster_path},'wishlist'):navigateToSignUpPage}>{user? <div><img src={bookmarkOutline}/><span>Add to Wishlist</span></div>:'Login to wishlist'}</button>
                                 </li>
                                 <li className={classes[`movie-item__list`]} >
-                                    <button className={classes[`movie-item__btn`]}  onClick={user ? getWishlistFavMovies.bind(window,user?.uid,{id:movie.id,original_title:movie.original_title,overview:movie.overview,poster_path:movie.poster_path},'favorite'):navigateToLoginInForm}>{user?'Add to favorite':'SignUp to favorite'}</button>
+                                    <button className={classes[`movie-item__btn`]}  onClick={user ? getWishlistFavMovies.bind(window,user?.uid,{id:movie.id,original_title:movie.original_title,overview:movie.overview,poster_path:movie.poster_path},'favorite'):navigateToLoginInForm}>{user?<div><img src={heartOutlineIcon}/><span>Add to Favorite</span></div>:'SignUp to favorite'}</button>
                                 </li>
                             
                             </ul>

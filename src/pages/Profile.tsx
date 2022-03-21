@@ -5,6 +5,7 @@ import {auth,db} from '../firebase-config';
 import {ref,onValue } from 'firebase/database';
 import classes from './Profile.module.css';
 import { renderResponseItem } from '../utils/util';
+import crossIcon from '../assets/cross.png';
 
 type movie={
     id: number,
@@ -52,7 +53,7 @@ const Profile=()=>{
 
     const favWishlistMovieContent=(arr:movie[])=>{
         let content=arr.map((movieItem)=>{
-            return <div className={classes['category__movie']}>
+            return <div data-testid={movieItem.id} key={movieItem.id} className={classes['category__movie']}>
                 <div className={classes['category__movie__img__container']}>
                     <img className={classes['category__movie__img']} decoding='async' src={`https://www.themoviedb.org/t/p/w440_and_h660_face/`+movieItem.poster_path}/>
                 </div>
@@ -60,6 +61,7 @@ const Profile=()=>{
                     <h3 >{movieItem.original_title}</h3>
                     <p>{movieItem.overview.split('.')[0]}</p>
                 </div>
+                <button className={classes['cross-btn']}><img src={crossIcon}/></button>
             </div>
         })
 
