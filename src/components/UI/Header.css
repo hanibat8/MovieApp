@@ -24,6 +24,7 @@
 .navbar__links,
 .navbar__login{
    display: flex;
+   cursor: pointer;
     
 }
 

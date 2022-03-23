@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/UI/Header';
 import Layout from '../components/UI/Layout';
 import {auth,db} from '../firebase-config';
-import {ref,onValue } from 'firebase/database';
+import {ref,onValue, remove } from 'firebase/database';
 import classes from './Profile.module.css';
 import { renderResponseItem } from '../utils/util';
 import crossIcon from '../assets/cross.png';
@@ -22,6 +22,8 @@ const Profile=()=>{
         favorite:false
     });
 
+    const [isLoading,setIsLoading]=useState(true);
+
     const [wishlistMovies,setWishlistMovies]=useState<movie[]>([]);
     const [favMovies,setFavMovies]=useState<movie[]>([]);
 
@@ -35,17 +37,28 @@ const Profile=()=>{
             }
          })
     }
+
+    const deleteFromDb=(id:number,category:string)=>{
+        remove(ref(db, `users/${user?.uid}/${category}/${id}`));
+        if(category==='wishlist')
+            setWishlistMovies(wishlistMovies.filter((movieItem)=>movieItem.id!=id))
+        else 
+            setFavMovies(favMovies.filter((movieItem)=>movieItem.id!=id))
+    }
     
     useEffect(()=>{
         onValue(ref(db, `users/${user?.uid}/wishlist`), (snapshot) => {
             //console.log(Object.values(snapshot.val()));
             snapshot.exists() && setWishlistMovies(Object.values((snapshot.val())))
+            setIsLoading(false);
           }, {
             onlyOnce: true
           });
 
           onValue(ref(db, `users/${user?.uid}/favorite`), (snapshot) => {
+              setIsLoading(true);
             snapshot.exists() && setFavMovies(Object.values((snapshot.val())))
+            setIsLoading(false);
           }, {
             onlyOnce: true
           });
@@ -61,7 +74,7 @@ const Profile=()=>{
                     <h3 >{movieItem.original_title}</h3>
                     <p>{movieItem.overview.split('.')[0]}</p>
                 </div>
-                <button className={classes['cross-btn']}><img src={crossIcon}/></button>
+                <button aria-label={`cross${movieItem.id}`} onClick={deleteFromDb.bind(window,movieItem.id,categoryClicked.favorite?'favorite':'wishlist')} className={classes['cross-btn']}><img src={crossIcon}/></button>
             </div>
         })
 
@@ -88,7 +101,7 @@ const Profile=()=>{
                         Favorites 
                     </button>
                 </div>
-                {(!favMovies || !wishlistMovies) && renderResponseItem(true,false)}
+                {(isLoading) && renderResponseItem(true,false)}
                 <div className={classes['category__movies']}>
                     {categoryClicked.favorite ? favWishlistMovieContent(favMovies): favWishlistMovieContent(wishlistMovies)}
                 </div>
