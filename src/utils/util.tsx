@@ -43,7 +43,7 @@ export const getWishlistFavMovies=(uid:string | undefined, movie:movie, category
     get(child(ref(db), `users/${uid}/${category}`)).then((snapshot) => {
         
         if (snapshot.exists()) {
-            !snapshot.child(`${movie.id}`).exists() && updateWishlistFavMovieToDB(movie,category,uid);  
+            snapshot.child(`${movie.id}`).exists() && updateWishlistFavMovieToDB(movie,category,uid);  
         }
 
         else {

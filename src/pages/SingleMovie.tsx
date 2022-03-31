@@ -3,7 +3,7 @@ import Header from "../components/UI/Header";
 import Footer from "../components/UI/Footer";
 import Layout from "../components/UI/Layout";
 import Carousal from "../components/Carousal/Carousal";
-import CarousalItem from "../components/Carousal/CarousalItem";
+import MovieItem from "../components/Movie/MovieItem";
 import CircularScore from "../components/UI/CircularScore";
 import classes from './SingleMovie.modules.css';
 import { useParams } from "react-router-dom";
@@ -87,14 +87,14 @@ const SingleMovie:React.FC<Props>=(props)=>{
     }
 
     
-    const cast=movie?.genres?.map((genre:{id:number,name:string})=>{
-            return <CarousalItem>
+    /*const cast=movie?.genres?.map((genre:{id:number,name:string})=>{
+            return <MovieItem>
                 <div key={genre.id}>
                     <img decoding='async' src="https://www.themoviedb.org/t/p/w138_and_h175_face/hhKZGnu66EXC0nDYzjErMs62ETb.jpg" className='carousal-item--img'/>
                     {genre.name}
                 </div>
-            </CarousalItem>
-        });
+            </MovieItem>
+        });*/
 
     return(
         <>
@@ -143,7 +143,7 @@ const SingleMovie:React.FC<Props>=(props)=>{
                         <Layout className='single-movie--details__container'>
                             <div className="single-movie--details--cast">
                                 <h2>Top Billed Cast</h2>
-                                <Carousal>{cast}</Carousal>
+                                <Carousal>{/*cast*/}</Carousal>
                             </div>
                             
                             <div className="single-movie--detail">

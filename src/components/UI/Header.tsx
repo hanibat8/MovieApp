@@ -32,11 +32,14 @@ const Header=()=>{
                                 <div className={`navbar__link__dropdown`}>
                                     <ul>
                                         <li className={`navbar__list`}>
-                                            <Link to='/movies/popular' className={`navbar__list__category`}>Popular</Link></li>
+                                            <Link to='/movies/popularMovies' className={`navbar__list__category`}>Popular</Link>
+                                        </li>
                                         <li className={`navbar__list`} >
-                                            <Link to='/movies/topRated' className={`navbar__list__category`}>Top Rated</Link></li>
-                                       <li className={`navbar__list`}>
-                                            <Link to='/movies/upcoming' className={`navbar__list__category`}>Upcoming</Link></li>
+                                            <Link to='/movies/topRated' className={`navbar__list__category`}>Top Rated</Link>
+                                        </li>
+                                        <li className={`navbar__list`}>
+                                            <Link to='/movies/upcoming' className={`navbar__list__category`}>Upcoming</Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

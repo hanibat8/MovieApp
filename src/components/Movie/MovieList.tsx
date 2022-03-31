@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieItem from './MovieItem';
+import MovieItemList from './MovieItemList';
 import classes from './MovieList.module.css';
 import {renderResponseItem} from '../../utils/util';
 import {useMovies} from  '../../hooks/use-movies';
@@ -9,7 +9,6 @@ interface Props {
     url?:string,
     category:string
 }
-
 
 const MovieList:React.FC<Props>=(props)=>{
 
@@ -25,7 +24,7 @@ const MovieList:React.FC<Props>=(props)=>{
             <div className={classes[definedClass]}>
                 {(isFetching || isError ) && renderResponseItem(isFetching,error)} 
                 {(!isLoading && !isError) && item?.data?.results && (props.category!='Trailer' ?
-                <MovieItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>:
+                <MovieItemList list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>:
                 <MovieTrailerItem list={renderResponseItem(isLoading,error,item.data.results)} category={props.category}/>)}
             </div>
         </React.Fragment>
