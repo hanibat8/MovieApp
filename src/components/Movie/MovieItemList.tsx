@@ -1,7 +1,6 @@
 import React from 'react';
 import Carousal from '../Carousal/Carousal';
 import MovieItem from './MovieItem';
-import classes from './MovieItemList.module.css';
 
 interface Props {
     list:[] | JSX.Element,

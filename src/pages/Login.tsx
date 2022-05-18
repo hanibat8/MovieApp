@@ -1,11 +1,10 @@
 import React,{useState} from 'react';
-import {Route,Routes,useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Header from '../components/UI/Header';
 import Input from '../components/UI/Input';
 import classes from './Form.module.css';
-import {
-    signInWithEmailAndPassword
-  } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+//import { useAuthSignInWithEmailAndPassword } from "@react-query-firebase/auth";
 import {auth} from '../firebase-config';
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -17,6 +16,12 @@ const Login=()=>{
     const [error,setError]=useState(false);
     const navigate=useNavigate();
     
+   /* const mutation = useAuthSignInWithEmailAndPassword(auth, {
+        onError(error) {
+          setError(error.message);
+          toast.error("Could not sign you in!");
+        },
+      });*/
 
     /*useEffect(()=>{
        // !error && !isLoading && response && authContext.logIn(response.idToken);
@@ -42,7 +47,7 @@ const Login=()=>{
                 .min(6, "Must be 5 characters or more")
                 .required("Required"),
             })}
-            onSubmit={async(values, { setSubmitting }) => {
+            onSubmit={async(values,{ setSubmitting }) => {
                 //unsetState();
                 /*sendRequest({
                    url:'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC3tkL__9PuUSI_bZBzyJIAjxda4AHOZog',
@@ -56,6 +61,8 @@ const Login=()=>{
                        'Content-Type': 'application/json',
                        },
                    });*/
+
+                   //mutation.mutate({email: values.email,password: values.password });
                     signInWithEmailAndPassword(auth,values.email,values.password).then((userCredential)=>{
                         console.log(userCredential);
                         setSubmitting(false);
@@ -88,7 +95,7 @@ const Login=()=>{
                             id='password'       
                         />
                         {(formik.isSubmitting || error) && renderResponseItem(formik.isSubmitting,error)}
-                        {!formik.isSubmitting && {} && <button type="submit" disabled={!formik.isValid || formik.isSubmitting} className={classes['form__btn']} >Submit</button>}
+                        {!formik.isSubmitting && {} && <button type="submit" disabled={formik.isSubmitting} className={classes['form__btn']} >Submit</button>}
                         </Form>
                         </div>
                     )}}

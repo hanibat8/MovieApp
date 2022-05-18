@@ -3,31 +3,56 @@ import Header from "../components/UI/Header";
 import Footer from "../components/UI/Footer";
 import Layout from "../components/UI/Layout";
 import Carousal from "../components/Carousal/Carousal";
-import MovieItem from "../components/Movie/MovieItem";
 import CircularScore from "../components/UI/CircularScore";
+//import MovieItem from '../components/Movie/MovieItem';
 import classes from './SingleMovie.modules.css';
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {renderResponseItem} from '../utils/util';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, /*useQueryClient*/ } from 'react-query';
 import {auth} from '../firebase-config';
-import {db} from '../firebase-config';
-import {ref,set} from 'firebase/database';
+//import {db} from '../firebase-config';
+//import {ref,set} from 'firebase/database';
 import axios from 'axios';
 
-import heartIcon from '../assets/heart-outlined.png';
-import bookMarkIcon from '../assets/bookmark_outline.png';
-import heartIconPressed from '../assets/heart.png';
-import boolMarkIconPressed from '../assets/bookmark2.png';
+//import heartIcon from '../assets/heart-outlined.png';
+//import bookMarkIcon from '../assets/bookmark_outline.png';
+//import heartIconPressed from '../assets/heart.png';
+//import boolMarkIconPressed from '../assets/bookmark2.png';
 import playIcon from '../assets/controller-play.png';
 
 interface Props{
     category?:string
 }
 
+interface Movie {
+    adult: boolean;
+    backdrop_path: string;
+    belongs_to_collection?: any;
+    budget: number;
+    genres: [];
+    homepage: string;
+    id: number;
+    imdb_id: string;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    release_date: string;
+    revenue: number;
+    runtime: number;
+    status: string;
+    tagline: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+  }
+
 const mapGenres=(genreArr:[])=>genreArr?.map((genre:{id:number,name:string})=><span key={genre.id} className="single-movie--genre">{`${genre.name}`}</span>);
 
-const SingleMovie:React.FC<Props>=(props)=>{
+const SingleMovie:React.FC<Props>=()=>{
     console.log('SingleMovie render');
     const params=useParams();
 
@@ -39,19 +64,17 @@ const SingleMovie:React.FC<Props>=(props)=>{
 
     const navigateToLoginInForm=()=> navigate('/login');
     
-    const queryClient:any=useQueryClient();
-    let queryClientPopular= queryClient.getQueryData('Popular')?.data?.results;
-    let queryClientUpcoming=queryClient.getQueryData('Upcoming')?.data?.results;
-    let queryClientTopRated=queryClient.getQueryData('Top Rated')?.data?.results;
+    //const queryClient:any=useQueryClient();
+    //let queryClientPopular= queryClient.getQueryData('Popular')?.data?.results;
+    //let queryClientUpcoming=queryClient.getQueryData('Upcoming')?.data?.results;
+    //let queryClientTopRated=queryClient.getQueryData('Top Rated')?.data?.results;
 
-    console.log(queryClientPopular);
-
-    const getMovieIdForPlaceholderData=(queryClientMovies:[]|null)=>{
+    /*const getMovieIdForPlaceholderData=(queryClientMovies:[]|null)=>{
             return queryClientMovies?.find((movie:{id:number})=>{
-                if(params.movieId!=null)
+                if(params.movieId==null)
                     return movie.id===+params.movieId}
                 );
-        
+                
     }
 
     const getIPlaceholderData=()=>{
@@ -64,27 +87,28 @@ const SingleMovie:React.FC<Props>=(props)=>{
         }
 
         return dataQuery;
-    }
+    }*/
     
-    const {isLoading,data:movie,isError,error}=useQuery(
-        ['movie-id',params.movieId && params.movieId.toString()],
-        ()=>axios.get(`https://api.themoviedb.org/3/movie/${params.movieId}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`),
+    const {isLoading,data,isError,error}=useQuery(
+        ['movie-id',params['movieId'] && params['movieId'].toString()],
+        ()=>axios.get(`https://api.themoviedb.org/3/movie/${params['movieId']}?api_key=5c8ece04ea5e1e31bb7e5630081968b6&language=en-US`),
         {   staleTime:Infinity,
-            placeholderData: ()=>{let a=queryClient.getQueryData('Popular')?.data?.results.find((movie:{id:number})=> {
-                if(params.movieId!=null) 
-                    return movie.id===+params.movieId})
+           /* placeholderData: ()=>{let a=queryClient.getQueryData('Popular')?.data?.results.find((movie:{id:number})=> {
+                if(params['movieId']!=null) 
+                    return movie.id===+params['movieId']})
                 console.log(a)
-                return a}
+                return a}*/
         });
 
+        let movie:Movie=data && data?.data;
     
-    const toggleFavHandler=(movie:{id:number})=>{
+    /*const toggleFavHandler=(movie:{id:number})=>{
        //dispatch('TOGGLE_FAV',{movieId:movie.id,category:props.category});
     }
 
     const toggleWishlistHandler=(movie:{id:number})=>{
         //dispatch('TOGGLE_WISHLIST',{movieId:movie.id,category:props.category});
-    }
+    }*/
 
     
     /*const cast=movie?.genres?.map((genre:{id:number,name:string})=>{

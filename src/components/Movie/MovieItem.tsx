@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import {auth} from '../../firebase-config';
 import {getWishlistFavMovies} from '../../utils/util';
+//import { useAuthUser } from "@react-query-firebase/auth";
+//import { useDatabaseSnapshot } from "@react-query-firebase/database";
+//import { useDatabaseSetMutation } from "@react-query-firebase/database";
+//import {db} from '../../firebase-config';
+//import {ref} from 'firebase/database';
+
+//import {getWishlistFavMovies} from '../../utils/util';
 import optionIcon from '../../assets/dots-three-horizontal.png';
 import heartOutlineIcon  from '../../assets/heart-outlined.png';
 import bookmarkOutline from '../../assets/bookmark_outline.png';
@@ -25,6 +32,25 @@ interface Props {
 const MovieItem:React.FC<Props>=props=>{ 
 
     const user = auth.currentUser;
+
+    //const user1 = useAuthUser(["user"], auth);
+
+    //const dbRef = ref(db, `users/${user1.data?.uid}/wishlist/`);
+    //const wishlistMovies = useDatabaseSnapshot(["wishlistMovies"], dbRef);
+    //const mutation = useDatabaseSetMutation(dbRef);
+    //console.log(wishlistMovies);
+
+    //wishlistMovies?.data?.exists();
+
+    //console.log(user1);
+
+    /*const setWishlistFavMovies=(movie:movie)=>{
+       if(wishlistMovies?.data?.exists() && !wishlistMovies.data.hasChild(`users/${user1.data?.uid}/wishlist/${movie.id}`)){
+            mutation.mutate({
+                [movie.id]: movie,
+            });
+       }
+    }*/
     
     let navigate = useNavigate();
     const navigateToSignUpPage=()=> navigate('/signUp'); 

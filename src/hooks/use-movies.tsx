@@ -1,6 +1,23 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 
+/*export interface MovieInterface {
+    adult: boolean;
+    backdrop_path: string;
+    genre_ids: number[];
+    id: number;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    release_date: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+  }
+*/
 const API_KEY=`5c8ece04ea5e1e31bb7e5630081968b6`;
 
 export const useMovies=(props:{category:string})=>{

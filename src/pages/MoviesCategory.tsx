@@ -12,7 +12,8 @@ type movie={
     original_title: string,
     vote_average: number,
     poster_path: string,
-    overview:string
+    overview:string,
+    release_date:string
 }
 
 interface Props {
@@ -43,24 +44,25 @@ const MoviesCategory:React.FC<Props>=(props)=>{
 
     const sortMovies=(sortType:string|undefined)=>{
         if(Array.isArray(item?.data.results) && item?.data.results.length>0){
+            console.log(item?.data.results[0]);
             switch (sortType) {
                 case "Popularity Descending":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) => (b.vote_average > a.vote_average ? 1 : -1)))
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) => (b.vote_average > a.vote_average ? 1 : -1)))
                   break;
                 case "Popularity Ascending":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) => (a.vote_average > b.vote_average ? 1 : -1)))                    
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) => (a.vote_average > b.vote_average ? 1 : -1)))                    
                   break;
                 case "Release Date Descending":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) =>( (a.release_date) > (b.release_date) ? 1 : -1)))
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) =>( (a.release_date) > (b.release_date) ? 1 : -1)))
                   break;
                 case "Release Date Ascending":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) =>( (b.release_date) > (a.release_date) ? 1 : -1)));
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) =>( (b.release_date) > (a.release_date) ? 1 : -1)));
                   break;  
                 case "Title (A-Z)":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) =>( (a.title.trim()) > (b.title.trim()) ? 1 : -1)))
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) =>( (a.original_title.trim()) > (b.original_title.trim()) ? 1 : -1)))
                   break;
                 case "Title (Z-A)":
-                    generateSortedMoviesJSX(item?.data.results.sort((a:any, b:any) =>( (b.title.trim()) > (a.title.trim()) ? 1 : -1)));
+                    generateSortedMoviesJSX(item?.data.results.sort((a:movie, b:movie) =>((b.original_title.trim()) > (a.original_title.trim()) ? 1 : -1)));
                   break;
                 default:
                   break;

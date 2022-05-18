@@ -10,12 +10,14 @@ import Layout from './Layout';
 
 const Header=()=>{
 
+    //const user = useAuthUser(["user"], auth);
+
     const authContext=useAuth();
     const navigate=useNavigate();
 
     const logoutHandler=()=>{
         console.log(authContext);
-        signOut(auth).then((s)=>{
+        signOut(auth).then(()=>{
             navigate('/')
         }).catch((err)=>alert(err.message));
     }

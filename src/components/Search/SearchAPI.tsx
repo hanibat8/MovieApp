@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery,UseQueryResult } from 'react-query';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import {renderResponseItem} from '../../utils/util';
 import axios from 'axios';
