@@ -34,7 +34,7 @@ export const addWishlistFavMovieToDB=(movie:movie, category:string, uid:string |
 };
 
 export const updateWishlistFavMovieToDB=(movie:movie, category:string, uid:string | undefined)=>{
-    //console.log('here');
+    console.log('in here');
     const nodeRef = child(ref(db), `users/${uid}/${category}/` + movie.id); // id = custom ID you want to specify 
     set(nodeRef, movie )
 }
@@ -43,10 +43,12 @@ export const getWishlistFavMovies=(uid:string | undefined, movie:movie, category
     get(child(ref(db), `users/${uid}/${category}`)).then((snapshot) => {
         
         if (snapshot.exists()) {
-            snapshot.child(`${movie.id}`).exists() && updateWishlistFavMovieToDB(movie,category,uid);  
+            console.log('here');
+             updateWishlistFavMovieToDB(movie,category,uid);  
         }
 
         else {
+            console.log('or here');
             addWishlistFavMovieToDB(movie,category,uid);
         }
         
