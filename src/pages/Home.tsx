@@ -12,10 +12,6 @@ const Home=()=>{
           <div className={classes['home__poster']}>
                 <h1 className={classes['home__poster__heading']}>Welcome.</h1>
                 <h2 className={classes['home__poster__sub-heading']}>Millions of movies and TV shows to discover. Explore now.</h2>
-                <form className={classes['home__poster__form']}>
-                    <input className={classes['home__poster__form__input']} placeholder='Search'/>
-                    <button className={classes['home__poster__form__btn']}>Search</button>
-                </form>
             </div>
           <Layout >
             <MovieList category={`Popular`} />
